@@ -59,7 +59,18 @@
       font-family: 'Fira Sans', sans-serif;
       min-height: 100vh;
     }
+    
+		#content-slot #thoughts-view,
+    #content-slot main:has(#prose-list) {
+      max-width: 41rem;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 5rem;
+    }
 
+    #content-slot #prose-list {
+      padding-inline-start: 40px;
+    }
+    
     .top-controls {
       position: fixed;
       top: 14px;
