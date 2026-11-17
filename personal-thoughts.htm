@@ -5,8 +5,18 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Personal Thoughts</title>
   <meta name="description" content="A running list of personal thoughts.">
+  <!-- Fonts: Amiri (Arabic couplets) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
   <!-- Icons: FontAwesome 4 (matches resume) -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('site-theme') || localStorage.getItem('thoughts-theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
   <style>
     /* Gruvbox Light Soft (Default) */
     :root {
@@ -40,7 +50,10 @@
       --accent: #fe8019;  /* bright_orange */
     }
 
-    * { box-sizing: border-box; }
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       background: var(--paper);
@@ -78,18 +91,22 @@
       margin: 0 auto;
       padding: 4.5rem 1.5rem 5rem;
     }
+
     header { margin-bottom: 3rem; }
+
     h1 {
       font-size: 2.4rem;
       font-weight: normal;
       letter-spacing: -0.01em;
       margin: 0 0 0.4rem;
     }
+
     header p {
       margin: 0;
       color: var(--muted);
       font-style: italic;
     }
+
     .thought-counter {
       font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
       letter-spacing: 0.08em;
@@ -97,20 +114,27 @@
       color: var(--muted);
       margin-bottom: 1.2rem;
     }
+
     .thought-counter strong {
       color: var(--accent);
       font-weight: normal;
     }
+
     ol {
       list-style: none;
       margin: 0;
       padding: 0;
     }
+
     li {
       padding: 1.6rem 0;
       border-top: 1px solid var(--rule);
     }
-    li:last-child { border-bottom: 1px solid var(--rule); }
+
+    li:last-child {
+      border-bottom: 1px solid var(--rule);
+    }
+
     time {
       display: block;
       font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -119,11 +143,20 @@
       color: var(--accent);
       margin-bottom: 0.6rem;
     }
+
     li h3 {
-      margin: 0 0 0.5rem;
+      margin: 0 0 0.6rem;
       font-weight: normal;
     }
-    li p { margin: 0; }
+
+    li p {
+      margin: 0 0 1rem;
+    }
+
+    li p:last-child {
+      margin-bottom: 0;
+    }
+
     footer {
       margin-top: 3rem;
       color: var(--muted);
@@ -133,24 +166,29 @@
     /* Arabic Couplet Alignment (Sadr / Dots / Ajuz) */
     .aligned-prose {
       display: grid;
-      grid-template-columns: 1fr max-content 1fr;
-      gap: 12px 20px;
+      grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+      column-gap: 10px;
+      row-gap: 12px;
+      align-items: baseline;
       direction: rtl;
       font-family: 'Amiri', 'Traditional Arabic', serif;
     }
+
     .aligned-prose span:nth-child(3n + 1) {
+      justify-self: end;
       text-align: right;
     }
-    .dots {
+
+    .aligned-prose .dots {
+      justify-self: center;
       color: var(--muted);
       text-align: center;
+      white-space: nowrap;
     }
+
     .aligned-prose span:nth-child(3n + 3) {
-      text-align: left;
-    }
-    li h3 {
-      margin: 0 0 1.9rem;
-      font-weight: normal;
+      justify-self: start;
+      text-align: right;
     }
   </style>
 </head>
@@ -259,7 +297,7 @@
 		  const btn = document.getElementById('theme-toggle');
 		  const root = document.documentElement;
 
-		  const saved = localStorage.getItem('thoughts-theme');
+		  const saved = localStorage.getItem('site-theme') || localStorage.getItem('thoughts-theme');
 		  if (saved) root.setAttribute('data-theme', saved);
 
 		  btn.addEventListener('click', () => {
@@ -267,6 +305,7 @@
 		      (!root.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
 		    const next = isDark ? 'light' : 'dark';
 		    root.setAttribute('data-theme', next);
+		    localStorage.setItem('site-theme', next);
 		    localStorage.setItem('thoughts-theme', next);
 		  });
 		</script>
