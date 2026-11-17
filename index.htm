@@ -59,8 +59,8 @@
       font-family: 'Fira Sans', sans-serif;
       min-height: 100vh;
     }
-    
-		#content-slot #thoughts-view,
+
+    #content-slot #thoughts-view,
     #content-slot main:has(#prose-list) {
       max-width: 41rem;
       margin: 0 auto;
@@ -70,7 +70,7 @@
     #content-slot #prose-list {
       padding-inline-start: 40px;
     }
-    
+
     .top-controls {
       position: fixed;
       top: 14px;
@@ -104,14 +104,14 @@
 <body>
   <div class="top-controls">
     <button class="ctrl-btn" id="view-toggle" aria-label="Switch between Resume and Personal Thoughts">
-      <i class="fa fa-exchange"></i> <span id="view-toggle-label">About</span>
+      <i class="fa fa-exchange"></i> <span id="view-toggle-label">Resume</span>
     </button>
     <button class="ctrl-btn" id="theme-toggle" aria-label="Toggle color theme">
       <i class="fa fa-adjust"></i> Theme
     </button>
   </div>
 
-  <main id="content-slot"></main>
+  <div id="content-slot"></div>
 
   <script>
     const themeBtn = document.getElementById('theme-toggle');
@@ -121,8 +121,8 @@
     const root = document.documentElement;
 
     const FILES = {
-      thoughts: 'personal-thoughts.htm',
-      resume: 'about.htm'
+      thoughts: 'thoughts.htm',
+      resume: 'resume.htm'
     };
 
     const cache = {};
@@ -182,8 +182,8 @@
         slot.appendChild(newScript);
       });
 
-      document.title = viewName === 'resume' ? 'About' : 'Personal Thoughts';
-      viewLabel.textContent = viewName === 'resume' ? 'Personal Thoughts' : 'About';
+      document.title = viewName === 'resume' ? 'Resume' : 'Personal Thoughts';
+      viewLabel.textContent = viewName === 'resume' ? 'Personal Thoughts' : 'Resume';
       window.scrollTo(0, 0);
     }
 
@@ -197,7 +197,6 @@
       }
     });
 
-    // Default import on load: Personal Thoughts
     importView('thoughts').catch((err) => {
       slot.innerHTML = `<p style="padding: 4rem 2rem;">Could not import <code>${FILES.thoughts}</code> (${err.message}).</p>`;
     });
