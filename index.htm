@@ -128,8 +128,8 @@
     const root = document.documentElement;
 
     const FILES = {
-      thoughts: 'thoughts.htm',
-      resume: 'resume.htm'
+      thoughts: 'personal-thoughts.htm',
+      resume: 'about.htm'
     };
 
     const cache = {};
@@ -213,8 +213,8 @@
 
       syncThoughtCounter();
 
-      document.title = viewName === 'resume' ? 'Resume' : 'Personal Thoughts';
-      viewLabel.textContent = viewName === 'resume' ? 'Personal Thoughts' : 'Resume';
+      document.title = viewName === 'resume' ? 'About' : 'Personal Thoughts';
+      viewLabel.textContent = viewName === 'resume' ? 'Personal Thoughts' : 'About';
       window.scrollTo(0, 0);
     }
 
