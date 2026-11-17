@@ -4,206 +4,192 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Personal Thoughts</title>
-  <meta name="description" content="A running list of personal thoughts.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <script>
+    (function () {
+      const saved = localStorage.getItem('site-theme');
+      if (saved) document.documentElement.setAttribute('data-theme', saved);
+    })();
+  </script>
   <style>
-    /* Gruvbox Light Soft (Default) */
     :root {
-      --paper: #f2e5bc;   /* bg0_s */
-      --ink: #3c3836;     /* fg1 */
-      --muted: #7c6f64;   /* fg4 */
-      --rule: #d5c4a1;    /* bg2 */
-      --accent: #af3a03;  /* faded_orange */
+      --gb-bg-soft: #ebd9b4;
+      --gb-bg-one:  #dec598;
+      --gb-bg-two:  #b89b6e;
+      --gb-fg-one:  #362c23;
+      --gb-fg-zero: #211912;
+      --gb-orange:  #9c2b00;
+      --gb-yellow:  #8f5104;
     }
 
-    /* Gruvbox Dark Soft */
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --paper: #32302f;   /* bg0_s */
-        --ink: #ebdbb2;     /* fg1 */
-        --muted: #a89984;   /* fg4 */
-        --rule: #504945;    /* bg2 */
-        --accent: #fe8019;  /* bright_orange */
+    @media screen and (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --gb-bg-soft: #32302f;
+        --gb-bg-one:  #282828;
+        --gb-bg-two:  #504945;
+        --gb-fg-one:  #ebdbb2;
+        --gb-fg-zero: #fbf1c7;
+        --gb-orange:  #fe8019;
+        --gb-yellow:  #fabd2f;
       }
     }
 
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font: 18px/1.65 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    :root[data-theme="dark"] {
+      --gb-bg-soft: #32302f;
+      --gb-bg-one:  #282828;
+      --gb-bg-two:  #504945;
+      --gb-fg-one:  #ebdbb2;
+      --gb-fg-zero: #fbf1c7;
+      --gb-orange:  #fe8019;
+      --gb-yellow:  #fabd2f;
     }
-    main {
-      max-width: 41rem;
-      margin: 0 auto;
-      padding: 4.5rem 1.5rem 5rem;
-    }
-    header { margin-bottom: 3rem; }
-    h1 {
-      font-size: 2.4rem;
-      font-weight: normal;
-      letter-spacing: -0.01em;
-      margin: 0 0 0.4rem;
-    }
-    header p {
-      margin: 0;
-      color: var(--muted);
-      font-style: italic;
-    }
-    .thought-counter {
-      font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--muted);
-      margin-bottom: 1.2rem;
-    }
-    .thought-counter strong {
-      color: var(--accent);
-      font-weight: normal;
-    }
-    ol {
-      list-style: none;
+
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
-    li {
-      padding: 1.6rem 0;
-      border-top: 1px solid var(--rule);
-    }
-    li:last-child { border-bottom: 1px solid var(--rule); }
-    time {
-      display: block;
-      font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      margin-bottom: 0.6rem;
-    }
-    li p { margin: 0; }
-    footer {
-      margin-top: 3rem;
-      color: var(--muted);
-      font-size: 0.85rem;
+
+    body {
+      background: var(--gb-bg-soft);
+      color: var(--gb-fg-one);
+      font-family: 'Fira Sans', sans-serif;
+      min-height: 100vh;
     }
 
-    /* Arabic Couplet Alignment (Sadr / Dots / Ajuz) */
-    .aligned-prose {
-      display: grid;
-      grid-template-columns: 1fr max-content 1fr;
-      gap: 12px 20px;
-      direction: rtl;
-      font-family: 'Amiri', 'Traditional Arabic', serif;
+    .top-controls {
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      display: flex;
+      gap: 8px;
+      z-index: 100;
     }
-    .aligned-prose span:nth-child(3n + 1) {
-      text-align: right;
+
+    .ctrl-btn {
+      background: var(--gb-bg-one);
+      color: var(--gb-fg-zero);
+      border: 1px solid var(--gb-bg-two);
+      padding: 5px 10px;
+      font-family: inherit;
+      font-size: 0.82rem;
+      cursor: pointer;
+      border-radius: 3px;
     }
-    .dots {
-      color: var(--muted); /* Inherits Gruvbox muted gray instead of hardcoded #888 */
-      text-align: center;
+
+    .ctrl-btn:hover {
+      border-color: var(--gb-orange);
+      color: var(--gb-orange);
     }
-    .aligned-prose span:nth-child(3n + 3) {
-      text-align: left;
+
+    @media print {
+      .top-controls { display: none; }
     }
   </style>
 </head>
 <body>
-  <main>
-    <header>
-      <h1>Personal Thoughts</h1>
-      <p>Small notes, kept for later.</p>
-    </header>
-		<p class="thought-counter">Thoughts posted: <strong id="thought-count">0</strong></p>
-    <!-- Add a new thought by copying an <li> block to the top of this list. -->
-    <ol id="prose-list">
-			<li>
-		    <time datetime="2026">2026</time>
-		    <div class="aligned-prose">
-		        <span>فكم من عين ذل لا ترى عزا أينمــــا وجهتها</span> <span class="dots">. . .</span> <span>وعقل يقبـــــل الضيم مــــن جيف الجهــــــال</span>
-		        <span>فعـــــزا من لدنه شواهـــق الجبال قد عقدت</span> <span class="dots">. . .</span> <span>وجعلت معارجــــــــها من شــــــديد المحـــــال</span>
-		        <span>فلا ابتغاهــــا جاهـل وإن ادعاهــــا لقومـــــه</span> <span class="dots">. . .</span> <span>ولا وفقــــــها سيــــد وإن ادعــــــى الأسباب</span>
-		        <span>وهذا بيـت أستودعـــــه عند ربـــــي لعلّـــــي</span> <span class="dots">. . .</span> <span>أدرك مناط العز عن سرٍ ومن شوق وإحسان</span> 
-		    </div>
-      </li>
-      <li>
-        <time datetime="2026">2026</time>
-        <p>
-					For 10 years I have wanted to destroy you. Yet suddenly, I have outgrown everything about you; for kindness in a man, or the lack thereof, is a reminder for those upon whom resolve is bestowed, a beautiful mercy within everyone.
-        </p>
-      </li>
-      <li>
-      	<time datetime="2026-06-22">22 JUN 2026</time>
-      	<h3>
-      		On Modeling Awareness & Perceived Maturity of Decisions
-      	</h3>
-        <p>
-					When one to several parties are involved in a certain domain of interaction where each party can sample a decision from a given state-space, each decision made, either conditionally or in a mutually exclusive manner, influences both the outcome, objectively speaking, and how that outcome is perceived by each party, subjectively speaking.
-				</p></br>
-        <p>
-					An <i>objective paradigm</i> of an outcome is the least common denominator of evaluation shared by all the parties, anything above that can be considered an element of the party's <i>subjective paradigm</i>, which can be used to characterize that party strictly within the confines of the domain of interaction.
-				</p></br>
-        <p>
-					The best possible outcome for each party, interacting in a domain, only takes into account its own subjective paradigm; such outcome for each party is affected by:</br>
-					&emsp;&bull; Independent occurrences of uncontrolled events</br>
-					&emsp;&bull; The non-conscious decisions made by each party involved</br>
-					&emsp;&bull; The conscious decisions that are based on a minimum amount self-awareness</br>
-				</p></br>
-        <p>
-					Self-awareness is the ability of each party to recognize:</br>
-					&emsp;&bull; The objective paradigm shared</br>
-					&emsp;&bull; The subjective characteristics of each party involved including oneself</br>
-				</p></br>
-        <p>
-					The level of maturity of each party can be self-evaluated by the probability of each decision successfully participating in the best possible subjective outcome. However, such level can be evaluated by other parties only via the objective outcome.
-				</p></br>
-        <p>
-					Successful participation probability of each decision in the best possible outcome for an entire domain of interaction can recursively be evaluated via an intermediate outcome resulting from decisions in a narrower domain window, and so on.
-				</p></br>
-      </li>
-      <li>
-        <time datetime="2026-10-30">30 OCT 2026</time>
-        <p>
-        	What golds can bring unto me, what I do not have within,</br>
-					What ripens to feast my soul upon, that does lie untold,</br>
-					Lovable asceticism, poetic contentment, dire fulfillment, a promise therein,</br>
-					The king of the world owns nothing, if he has no peace within,
-        </p>
-      </li>
-      <li>
-        <time datetime="2026-11-11">11 NOV 2026</time>
-				<div class="aligned-prose">
-					<span>من افتتـــــن بنفســــــه فحســــــبه ذرائـــــعها</span> <span class="dots">. . .</span> <span>ومن ود الحـق فيـــهن فحســـبه ذو الفضـــل</span>
-					<span>فاحذر من نعمة قد خبزت لعانا لا تجد فيها</span> <span class="dots">. . .</span> <span>أكنـــاف ربــــــــــك وعظيــــــم رحــــــمته</span>
-					<span>أفزعـــمت أن قوام العقـــد سيـــف قوامهـــا</span> <span class="dots">. . .</span> <span>وقد أوجز في قانــــــون هـــــا أنت تاركـــــــه</span>
-					<span>فكــم من قاضيين في النــار أنت حاكمهمــا</span> <span class="dots">. . .</span> <span>وفي فيء اللــــــــــــــعان أنت آخــــــــــــــــذه</span>
-					<span>أأنت حجيجـــــــــــــــــــــه فيــــــــــــــــــــــهم</span> <span class="dots">. . .</span> <span>وقد زعـــــــــــــــــــــمت مخافتــــــــــــــــــــــه</span>
-					<span>أم أنت حُمِّــــــــلت أوزارهــــــــم يومهـــــــــا</span> <span class="dots">. . .</span> <span>إذ كنت ثالثـــــــــــــــــــــــــــــــــــــــــــــــهم</span>
-				</div>
-      </li>
-      <li>
-				<time datetime="2026-11-17">17 Nov 2026</time>
-				<div class="aligned-prose">
-					<span>والنفس تبــغي فيــئا عن صغــار وفي جــزع</span> <span class="dots">. . .</span> <span>ارتضــــــته عيـــــــن المكر في ســـــــنن اللئاما</span>
-					<span>ومطمـــئن فيء النفس ســكنى الهوى كنفٌ</span> <span class="dots">. . .</span> <span>ارتضـــــــته عيــــــن الروح يســــــــرا وإجمالا</span>
-					<span>فمــن قبــل رأيتني جميــــل الحلة قائم الطلعـة</span> <span class="dots">. . .</span> <span>ســــــــالكا درب الدجى عــــــــــــــودا وريبة</span>
-					<span>واليـــــــوم أرى مطمــــــئن كنف ربــــــــي</span> <span class="dots">. . .</span> <span>هو خيـــــر من الدنيــا عوضــــا وأتم إشراقــــا</span>
-				</div>
-			</li>
-      <li>
-				<time datetime="2026-11-17">17 Nov 2026</time>
-				<h3>
-      		On Modeling Highly Subjective Conflicts
-      	</h3>
-				<p>
-					In domains of interaction that are characterized by highly subjective outcomes (e.g. crude humor, fights, etc.), the subject parties can either knowingly or unknowingly be participating in them. Additionally, such domains of interaction are characterized by having each party's states of awareness to the action of participating, in either the domain of interaction itself, or that of its consequences, which already includes how subjectively acceptable a level of consequence might be, being mutually disjoint. A recursive consequential process, in that regard, dictates that the party which results in a higher average of instance ratios, where the level of anger restraint in an instance (i.e. turn) is divided by the impact of its respective consequence taken (i.e. The level of anger restraint does not necessarily have to correlate with the impact of the consequence taken during a specific turn), emerges victorious. Such criterion is a party-specific one that is computed as a harmonic mean that is weighted by the latencies taken for reciprocating consequences during turns; moreover, such latencies are affected by the levels of anger restraint being exercised.
-				</p>
-			</li>
-    </ol>
+  <div class="top-controls">
+    <button class="ctrl-btn" id="view-toggle" aria-label="Switch between Resume and Personal Thoughts">
+      <i class="fa fa-exchange"></i> <span id="view-toggle-label">About</span>
+    </button>
+    <button class="ctrl-btn" id="theme-toggle" aria-label="Toggle color theme">
+      <i class="fa fa-adjust"></i> Theme
+    </button>
+  </div>
 
-    <footer>Updated now and then.</footer>
-  </main>
+  <main id="content-slot"></main>
+
   <script>
-    document.getElementById('thought-count').textContent =
-      document.querySelectorAll('#prose-list > li').length;
+    const themeBtn = document.getElementById('theme-toggle');
+    const viewBtn = document.getElementById('view-toggle');
+    const viewLabel = document.getElementById('view-toggle-label');
+    const slot = document.getElementById('content-slot');
+    const root = document.documentElement;
+
+    const FILES = {
+      thoughts: 'personal-thoughts.htm',
+      resume: 'about.htm'
+    };
+
+    const cache = {};
+    let currentView = 'thoughts';
+
+    themeBtn.addEventListener('click', () => {
+      const isDark = root.getAttribute('data-theme') === 'dark' ||
+        (!root.hasAttribute('data-theme') && window.matchMedia('(prefers-color-scheme: dark)').matches);
+      const next = isDark ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      localStorage.setItem('site-theme', next);
+    });
+
+    async function importView(viewName) {
+      const fileName = FILES[viewName];
+      const targetUrl = new URL(fileName, window.location.href);
+
+      if (!cache[viewName]) {
+        const res = await fetch(targetUrl);
+        if (!res.ok) throw new Error(`HTTP ${res.status} for ${fileName}`);
+        const raw = await res.text();
+        const doc = new DOMParser().parseFromString(raw, 'text/html');
+
+        const fragment = document.createDocumentFragment();
+
+        doc.querySelectorAll('style').forEach((styleEl) => {
+          const clone = document.createElement('style');
+          clone.textContent = styleEl.textContent;
+          fragment.appendChild(clone);
+        });
+
+        const bodyClone = doc.body.cloneNode(true);
+        bodyClone
+          .querySelectorAll('.top-controls, #theme-toggle, #view-toggle, #resume-toggle')
+          .forEach((el) => el.remove());
+
+        const scripts = Array.from(bodyClone.querySelectorAll('script'));
+        scripts.forEach((s) => s.remove());
+
+        while (bodyClone.firstChild) {
+          fragment.appendChild(bodyClone.firstChild);
+        }
+
+        cache[viewName] = { fragment, scripts };
+      }
+
+      slot.innerHTML = '';
+      slot.appendChild(cache[viewName].fragment.cloneNode(true));
+
+      cache[viewName].scripts.forEach((oldScript) => {
+        const newScript = document.createElement('script');
+        if (oldScript.src) {
+          newScript.src = oldScript.src;
+        } else {
+          newScript.textContent = oldScript.textContent;
+        }
+        slot.appendChild(newScript);
+      });
+
+      document.title = viewName === 'resume' ? 'About' : 'Personal Thoughts';
+      viewLabel.textContent = viewName === 'resume' ? 'Personal Thoughts' : 'About';
+      window.scrollTo(0, 0);
+    }
+
+    viewBtn.addEventListener('click', async () => {
+      const nextView = currentView === 'thoughts' ? 'resume' : 'thoughts';
+      try {
+        await importView(nextView);
+        currentView = nextView;
+      } catch (err) {
+        slot.innerHTML = `<p style="padding: 4rem 2rem;">Could not import <code>${FILES[nextView]}</code> (${err.message}).</p>`;
+      }
+    });
+
+    // Default import on load: Personal Thoughts
+    importView('thoughts').catch((err) => {
+      slot.innerHTML = `<p style="padding: 4rem 2rem;">Could not import <code>${FILES.thoughts}</code> (${err.message}).</p>`;
+    });
   </script>
 </body>
 </html>
