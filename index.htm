@@ -23,6 +23,12 @@
       --gb-fg-zero: #211912;
       --gb-orange:  #9c2b00;
       --gb-yellow:  #8f5104;
+
+      --paper:  #f2e5bc;
+      --ink:    #3c3836;
+      --muted:  #7c6f64;
+      --rule:   #d5c4a1;
+      --accent: #af3a03;
     }
 
     @media screen and (prefers-color-scheme: dark) {
@@ -34,6 +40,12 @@
         --gb-fg-zero: #fbf1c7;
         --gb-orange:  #fe8019;
         --gb-yellow:  #fabd2f;
+
+        --paper:  #32302f;
+        --ink:    #ebdbb2;
+        --muted:  #a89984;
+        --rule:   #504945;
+        --accent: #fe8019;
       }
     }
 
@@ -45,6 +57,12 @@
       --gb-fg-zero: #fbf1c7;
       --gb-orange:  #fe8019;
       --gb-yellow:  #fabd2f;
+
+      --paper:  #32302f;
+      --ink:    #ebdbb2;
+      --muted:  #a89984;
+      --rule:   #504945;
+      --accent: #fe8019;
     }
 
     *, *::before, *::after {
@@ -60,16 +78,45 @@
       min-height: 100vh;
     }
 
-    /* Keep Personal Thoughts at its original width & list padding without narrowing Resume */
-    #content-slot #thoughts-view,
-    #content-slot main:has(#prose-list) {
-      max-width: 41rem;
-      margin: 0 auto;
-      padding: 4.5rem 1.5rem 5rem;
+    /* Keep Personal Thoughts at its original width & list padding without narrowing About */
+    #content-slot:has(#prose-list) #personal-thoughts-view,
+    #content-slot:has(#prose-list) main {
+      max-width: 41rem !important;
+      margin: 0 auto !important;
+      padding: 4.5rem 1.5rem 5rem !important;
     }
 
-    #content-slot #prose-list {
-      padding-inline-start: 40px;
+    #content-slot #prose-list,
+    #content-slot:has(#prose-list) ol {
+      padding-inline-start: 40px !important;
+    }
+
+    /* Tighten clearance between sadr / ajuz and separator */
+    #content-slot .aligned-prose {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
+      column-gap: 10px;
+      row-gap: 12px;
+      align-items: baseline;
+      direction: rtl;
+      font-family: 'Amiri', 'Traditional Arabic', serif;
+    }
+
+    #content-slot .aligned-prose span:nth-child(3n + 1) {
+      justify-self: end;
+      text-align: right;
+    }
+
+    #content-slot .aligned-prose .dots {
+      justify-self: center;
+      text-align: center;
+      white-space: nowrap;
+      color: var(--muted);
+    }
+
+    #content-slot .aligned-prose span:nth-child(3n + 3) {
+      justify-self: start;
+      text-align: right;
     }
 
     .top-controls {
@@ -110,7 +157,7 @@
 </head>
 <body>
   <div class="top-controls">
-    <button class="ctrl-btn" id="view-toggle" aria-label="Switch between Resume and Personal Thoughts">
+    <button class="ctrl-btn" id="view-toggle" aria-label="Switch between About and Personal Thoughts">
       <i class="fa fa-exchange"></i> <span id="view-toggle-label">About</span>
     </button>
     <button class="ctrl-btn" id="theme-toggle" aria-label="Toggle color theme">
@@ -128,12 +175,12 @@
     const root = document.documentElement;
 
     const FILES = {
-      thoughts: 'personal-thoughts.htm',
-      resume: 'about.htm'
+      'personal-thoughts': 'personal-thoughts.htm',
+      about: 'about.htm'
     };
 
     const cache = {};
-    let currentView = 'thoughts';
+    let currentView = 'personal-thoughts';
 
     themeBtn.addEventListener('click', () => {
       const isDark = root.getAttribute('data-theme') === 'dark' ||
@@ -144,7 +191,6 @@
     });
 
     function scopeImportedCss(cssText) {
-      // Rewrite standalone `body` selectors to `#content-slot` so imported views don't clobber index.htm
       return cssText.replace(/(^|[}\s,])body(?=\s*[,{])/g, '$1#content-slot');
     }
 
@@ -171,7 +217,7 @@
 
         const bodyClone = doc.body.cloneNode(true);
         bodyClone
-          .querySelectorAll('.top-controls, #theme-toggle, #view-toggle, #resume-toggle')
+          .querySelectorAll('.top-controls, #theme-toggle, #view-toggle, #resume-toggle, #about-toggle')
           .forEach((el) => el.remove());
 
         const scripts = Array.from(bodyClone.querySelectorAll('script'))
@@ -205,7 +251,6 @@
         if (s.src) {
           scriptEl.src = s.src;
         } else {
-          // Run inline scripts immediately (DOM is already parsed)
           scriptEl.textContent = s.text;
         }
         slot.appendChild(scriptEl);
@@ -213,23 +258,23 @@
 
       syncThoughtCounter();
 
-      document.title = viewName === 'resume' ? 'About' : 'Personal Thoughts';
-      viewLabel.textContent = viewName === 'resume' ? 'Personal Thoughts' : 'About';
+      document.title = viewName === 'about' ? 'About' : 'Personal Thoughts';
+      viewLabel.textContent = viewName === 'about' ? 'Personal Thoughts' : 'About';
       window.scrollTo(0, 0);
     }
 
     viewBtn.addEventListener('click', async () => {
-      const nextView = currentView === 'thoughts' ? 'resume' : 'thoughts';
+      const nextView = currentView === 'personal-thoughts' ? 'about' : 'personal-thoughts';
       try {
         await importView(nextView);
         currentView = nextView;
       } catch (err) {
-        slot.innerHTML = `<div class="import-error"><p>Could not import <code>${FILES[nextView]}</code> (${err.message}). Make sure it is deployed next to <code>index.htm</code> on GitHub Pages.</p></div>`;
+        slot.innerHTML = `<div class="import-error"><p>Could not import <code>${FILES[nextView]}</code> (${err.message}). Make sure it is deployed next to <code>index.htm</code>.</p></div>`;
       }
     });
 
-    importView('thoughts').catch((err) => {
-      slot.innerHTML = `<div class="import-error"><p>Could not import <code>${FILES.thoughts}</code> (${err.message}). Make sure it is deployed next to <code>index.htm</code> on GitHub Pages.</p></div>`;
+    importView('personal-thoughts').catch((err) => {
+      slot.innerHTML = `<div class="import-error"><p>Could not import <code>${FILES['personal-thoughts']}</code> (${err.message}). Make sure it is deployed next to <code>index.htm</code>.</p></div>`;
     });
   </script>
 </body>
