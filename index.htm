@@ -4,18 +4,25 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Personal Thoughts</title>
+  <meta name="description" content="Personal Thoughts and Curriculum Vitae of Mohamed Ibrahim Behery.">
+
+  <!-- Fonts: Fira Sans (Resume) & Amiri (Arabic couplets) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Icons: FontAwesome 4 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
   <script>
     (function () {
       const saved = localStorage.getItem('site-theme');
       if (saved) document.documentElement.setAttribute('data-theme', saved);
     })();
   </script>
+
   <style>
     :root {
+      /* Deep Warm Parchment / Gruvbox Light Soft Palette */
       --gb-bg-soft: #ebd9b4;
       --gb-bg-one:  #dec598;
       --gb-bg-two:  #b89b6e;
@@ -31,6 +38,7 @@
       --accent: #af3a03;
     }
 
+    /* System Dark Mode */
     @media screen and (prefers-color-scheme: dark) {
       :root:not([data-theme="light"]) {
         --gb-bg-soft: #32302f;
@@ -49,6 +57,7 @@
       }
     }
 
+    /* Manual Dark Mode Override */
     :root[data-theme="dark"] {
       --gb-bg-soft: #32302f;
       --gb-bg-one:  #282828;
@@ -65,60 +74,19 @@
       --accent: #fe8019;
     }
 
-    *, *::before, *::after {
+    * {
       box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
-      padding: 0;
-      background: var(--gb-bg-soft);
-      color: var(--gb-fg-one);
-      font-family: 'Fira Sans', sans-serif;
+      background-color: var(--paper);
+      color: var(--ink);
       min-height: 100vh;
     }
 
-    /* Keep Personal Thoughts at its original width & list padding without narrowing About */
-    #content-slot:has(#prose-list) #personal-thoughts-view,
-    #content-slot:has(#prose-list) main {
-      max-width: 45rem;
-      margin: 0 auto;
-      padding: 4.5rem 1.5rem 5rem;
-    }
-
-    #content-slot #prose-list,
-    #content-slot:has(#prose-list) ol {
-      padding-inline-start: 40px;
-    }
-
-    /* Tighten clearance between sadr / ajuz and separator */
-    #content-slot .aligned-prose {
-      display: grid;
-      grid-template-columns: minmax(0, 1fr) max-content minmax(0, 1fr);
-      column-gap: 10px;
-      row-gap: 12px;
-      align-items: baseline;
-      direction: rtl;
-      font-family: 'Amiri', 'Traditional Arabic', serif;
-    }
-
-    #content-slot .aligned-prose span:nth-child(3n + 1) {
-      justify-self: end;
-      text-align: right;
-    }
-
-    #content-slot .aligned-prose .dots {
-      justify-self: center;
-      text-align: center;
-      white-space: nowrap;
-      color: var(--muted);
-    }
-
-    #content-slot .aligned-prose span:nth-child(3n + 3) {
-      justify-self: start;
-      text-align: right;
-    }
-
+    /* Top-Right Controls: Resume Toggle + Theme Toggle */
     .top-controls {
       position: fixed;
       top: 14px;
@@ -133,7 +101,7 @@
       color: var(--gb-fg-zero);
       border: 1px solid var(--gb-bg-two);
       padding: 5px 10px;
-      font-family: inherit;
+      font-family: 'Fira Sans', sans-serif;
       font-size: 0.82rem;
       cursor: pointer;
       border-radius: 3px;
@@ -144,43 +112,747 @@
       color: var(--gb-orange);
     }
 
-    .import-error {
-      max-width: 41rem;
-      margin: 0 auto;
-      padding: 5rem 1.5rem;
-    }
-
     @media print {
       .top-controls { display: none; }
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ==================== PERSONAL THOUGHTS STYLES ==================== */
+    #thoughts-view {
+      background: var(--paper);
+      color: var(--ink);
+      font: 18px/1.65 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    }
+
+    #thoughts-view main {
+      max-width: 41rem;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 5rem;
+    }
+
+    #thoughts-view header {
+      margin-bottom: 3rem;
+    }
+
+    #thoughts-view h1 {
+      font-size: 2.4rem;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.4rem;
+    }
+
+    #thoughts-view header p {
+      margin: 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    #thoughts-view .thought-counter {
+      font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    #thoughts-view .thought-counter strong {
+      color: var(--accent);
+      font-weight: normal;
+    }
+
+    #thoughts-view ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #thoughts-view li {
+      padding: 1.6rem 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    #thoughts-view li:last-child {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    #thoughts-view time {
+      display: block;
+      font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    #thoughts-view li h3 {
+      margin: 0 0 2.0rem;
+      font-weight: normal;
+    }
+
+    #thoughts-view li p {
+      margin: 0;
+    }
+
+    #thoughts-view footer {
+      margin-top: 3rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    #thoughts-view .aligned-prose {
+      display: grid;
+      grid-template-columns: 1fr max-content 1fr;
+      gap: 12px 20px;
+      direction: rtl;
+      font-family: 'Amiri', 'Traditional Arabic', serif;
+    }
+
+    #thoughts-view .aligned-prose span:nth-child(3n + 1) {
+      text-align: right;
+    }
+
+    #thoughts-view .dots {
+      color: var(--muted);
+      text-align: center;
+    }
+
+    #thoughts-view .aligned-prose span:nth-child(3n + 3) {
+      text-align: left;
+    }
+
+    /* ==================== RESUME STYLES ==================== */
+    #resume-slot {
+      background-color: var(--gb-bg-soft);
+      color: var(--gb-fg-one);
+      font-family: 'Fira Sans', sans-serif;
+      font-size: 16px;
+      line-height: 1.5;
+      letter-spacing: 0.015em;
+    }
+
+    #resume-slot .layout {
+      display: flex;
+      min-height: 100vh;
+      max-width: 1460px;
+      margin: 0 auto;
+    }
+
+    #resume-slot .sidebar {
+      width: 420px;
+      background-color: var(--gb-bg-one);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      border-right: 1px solid var(--gb-bg-two);
+    }
+
+    #resume-slot .sidebar-top-bar {
+      height: 8px;
+      background-color: var(--gb-bg-two);
+      width: 100%;
+    }
+
+    #resume-slot .sidebar-content {
+      padding: 28px 30px 40px 32px;
+    }
+
+    #resume-slot .main-content {
+      flex: 1;
+      padding: 32px 48px 56px 48px;
+      max-width: 920px;
+    }
+
+    #resume-slot a {
+      color: var(--gb-fg-zero);
+      text-decoration: none;
+    }
+
+    #resume-slot a:hover {
+      text-decoration: underline;
+    }
+
+    #resume-slot .orange-link {
+      color: var(--gb-orange);
+    }
+
+    #resume-slot .name {
+      font-size: 1.75rem;
+      line-height: 1.2;
+      color: var(--gb-fg-zero);
+      font-weight: 400;
+      margin-bottom: 6px;
+    }
+
+    #resume-slot .name .surname {
+      font-weight: 700;
+      font-variant: small-caps;
+    }
+
+    #resume-slot .head-left {
+      margin-top: 22px;
+      margin-bottom: 8px;
+      font-variant: small-caps;
+      font-weight: 700;
+      color: var(--gb-yellow);
+      border-bottom: 1px solid var(--gb-bg-two);
+      padding-bottom: 3px;
+      font-size: 1.05rem;
+      letter-spacing: 0.04em;
+    }
+
+    #resume-slot .head-right {
+      margin-top: 28px;
+      margin-bottom: 14px;
+      font-variant: small-caps;
+      font-weight: 400;
+      color: var(--gb-orange);
+      border-bottom: 1.5px solid var(--gb-orange);
+      padding-bottom: 3px;
+      font-size: 1.45rem;
+      letter-spacing: 0.03em;
+    }
+
+    #resume-slot .main-content .head-right:first-child {
+      margin-top: 0;
+    }
+
+    #resume-slot .contact-info {
+      font-size: 0.92rem;
+      line-height: 1.6;
+    }
+
+    #resume-slot .contact-info i.fa {
+      width: 18px;
+      text-align: center;
+      margin-right: 6px;
+    }
+
+    #resume-slot .social-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      margin-top: 4px;
+    }
+
+    #resume-slot sup {
+      font-weight: 700;
+      font-size: 0.72rem;
+    }
+
+    #resume-slot .footnotes {
+      margin-top: 14px;
+      font-size: 0.82rem;
+      font-style: italic;
+      line-height: 1.35;
+    }
+
+    #resume-slot .footnotes div {
+      margin-bottom: 4px;
+    }
+
+    #resume-slot .sub-block {
+      margin-bottom: 10px;
+      font-size: 0.94rem;
+    }
+
+    #resume-slot .fg-zero-bold {
+      color: var(--gb-fg-zero);
+      font-weight: 700;
+    }
+
+    #resume-slot ul.sidebar-list {
+      list-style-type: disc;
+      padding-left: 20px;
+      font-size: 0.94rem;
+    }
+
+    #resume-slot ul.sidebar-list li {
+      margin-bottom: 4px;
+    }
+
+    #resume-slot .edu-item {
+      margin-bottom: 14px;
+      font-size: 0.92rem;
+    }
+
+    #resume-slot .ref-group-header {
+      text-align: right;
+      font-weight: 700;
+      font-style: italic;
+      font-size: 0.9rem;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    #resume-slot .ref-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-style: italic;
+      font-size: 0.88rem;
+      margin-bottom: 5px;
+    }
+
+    #resume-slot .summary {
+      font-size: 1rem;
+      line-height: 1.6;
+      margin-bottom: 12px;
+    }
+
+    #resume-slot .research-item {
+      padding-bottom: 18px;
+      margin-bottom: 18px;
+      border-bottom: 1px solid var(--gb-bg-two);
+    }
+
+    #resume-slot .research-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+      margin-bottom: 0;
+    }
+
+    #resume-slot .research-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin-bottom: 6px;
+    }
+
+    #resume-slot .research-title {
+      font-style: italic;
+      font-variant: small-caps;
+      color: var(--gb-fg-zero);
+      font-size: 1.08rem;
+    }
+
+    #resume-slot .research-date {
+      font-weight: 700;
+      white-space: nowrap;
+      font-size: 0.92rem;
+    }
+
+    #resume-slot .smaller-point {
+      font-size: 0.94rem;
+      line-height: 1.55;
+    }
+
+    #resume-slot .diamond {
+      font-size: 0.8rem;
+      margin-right: 3px;
+    }
+
+    @media (max-width: 960px) {
+      #resume-slot .layout {
+        flex-direction: column;
+      }
+      #resume-slot .sidebar {
+        width: 100%;
+        border-right: none;
+        border-bottom: 1px solid var(--gb-bg-two);
+      }
+      #resume-slot .sidebar-content {
+        padding: 24px 24px 32px 24px;
+      }
+      #resume-slot .main-content {
+        width: 100%;
+        padding: 28px 24px 48px 24px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #resume-slot .research-header {
+        flex-direction: column;
+        gap: 2px;
+      }
     }
   </style>
 </head>
 <body>
+
   <div class="top-controls">
-    <button class="ctrl-btn" id="view-toggle" aria-label="Switch between About and Personal Thoughts">
-      <i class="fa fa-exchange"></i> <span id="view-toggle-label">About</span>
+    <button class="ctrl-btn" id="resume-toggle" aria-label="Toggle Resume">
+      <i class="fa fa-file-text-o"></i> <span id="resume-toggle-label">About</span>
     </button>
     <button class="ctrl-btn" id="theme-toggle" aria-label="Toggle color theme">
       <i class="fa fa-adjust"></i> Theme
     </button>
   </div>
 
-  <div id="content-slot"></div>
+  <!-- DEFAULT INDEX VIEW: PERSONAL THOUGHTS -->
+  <div id="thoughts-view">
+		<main>
+			<header>
+			  <h1>Personal Thoughts</h1>
+			  <p>Small notes, kept for later.</p>
+			</header>
+			<p class="thought-counter">Thoughts posted: <strong id="thought-count">0</strong></p>
+			<!-- Add a new thought by copying an <li> block to the top of this list. -->
+			<ol id="prose-list">
+				<li>
+					<time datetime="2026">2026</time>
+					<div class="aligned-prose">
+						  <span>فكم من عين ذل لا ترى عزا أينمــــا وجهتها</span> <span class="dots">. . .</span> <span>وعقل يقبـــــل الضيم مــــن جيف الجهــــــال</span>
+						  <span>فعـــــزا من لدنه شواهـــق الجبال قد عقدت</span> <span class="dots">. . .</span> <span>وجعلت معارجــــــــها من شــــــديد المحـــــال</span>
+						  <span>فلا ابتغاهــــا جاهـل وإن ادعاهــــا لقومـــــه</span> <span class="dots">. . .</span> <span>ولا وفقــــــها سيــــد وإن ادعــــــى الأسباب</span>
+						  <span>وهذا بيـت أستودعـــــه عند ربـــــي لعلّـــــي</span> <span class="dots">. . .</span> <span>أدرك مناط العز عن سرٍ ومن شوق وإحسان</span> 
+					</div>
+				</li>
+				<li>
+				  <time datetime="2026">2026</time>
+				  <p>
+						For 10 years I have wanted to destroy you. Yet suddenly, I have outgrown everything about you; for kindness in a man, or the lack thereof, is a reminder for those upon whom resolve is bestowed, a beautiful mercy within everyone.
+				  </p>
+				</li>
+				<li>
+					<time datetime="2026-06-22">22 JUN 2026</time>
+					<h3>
+						On Modeling Awareness & Perceived Maturity of Decisions
+					</h3>
+				  <p>
+						When one to several parties are involved in a certain domain of interaction where each party can sample a decision from a given state-space, each decision made, either conditionally or in a mutually exclusive manner, influences both the outcome, objectively speaking, and how that outcome is perceived by each party, subjectively speaking.
+					</p></br>
+				  <p>
+						An <i>objective paradigm</i> of an outcome is the least common denominator of evaluation shared by all the parties, anything above that can be considered an element of the party's <i>subjective paradigm</i>, which can be used to characterize that party strictly within the confines of the domain of interaction.
+					</p></br>
+				  <p>
+						The best possible outcome for each party, interacting in a domain, only takes into account its own subjective paradigm; such outcome for each party is affected by:</br>
+						&emsp;&bull; Independent occurrences of uncontrolled events</br>
+						&emsp;&bull; The non-conscious decisions made by each party involved</br>
+						&emsp;&bull; The conscious decisions that are based on a minimum amount self-awareness</br>
+					</p></br>
+				  <p>
+						Self-awareness is the ability of each party to recognize:</br>
+						&emsp;&bull; The objective paradigm shared</br>
+						&emsp;&bull; The subjective characteristics of each party involved including oneself</br>
+					</p></br>
+				  <p>
+						The level of maturity of each party can be self-evaluated by the probability of each decision successfully participating in the best possible subjective outcome. However, such level can be evaluated by other parties only via the objective outcome.
+					</p></br>
+				  <p>
+						Successful participation probability of each decision in the best possible outcome for an entire domain of interaction can recursively be evaluated via an intermediate outcome resulting from decisions in a narrower domain window, and so on.
+					</p></br>
+				</li>
+				<li>
+				  <time datetime="2026-10-30">30 OCT 2026</time>
+				  <p>
+				  	What golds can bring unto me, what I do not have within,</br>
+						What ripens to feast my soul upon, that does lie untold,</br>
+						Lovable asceticism, poetic contentment, dire fulfillment, a promise therein,</br>
+						The king of the world owns nothing, if he has no peace within,
+				  </p>
+				</li>
+				<li>
+				  <time datetime="2026-11-11">11 NOV 2026</time>
+					<div class="aligned-prose">
+						<span>من افتتـــــن بنفســــــه فحســــــبه ذرائـــــعها</span> <span class="dots">. . .</span> <span>ومن ود الحـق فيـــهن فحســـبه ذو الفضـــل</span>
+						<span>فاحذر من نعمة قد خبزت لعانا لا تجد فيها</span> <span class="dots">. . .</span> <span>أكنـــاف ربــــــــــك وعظيــــــم رحــــــمته</span>
+						<span>أفزعـــمت أن قوام العقـــد سيـــف قوامهـــا</span> <span class="dots">. . .</span> <span>وقد أوجز في قانــــــون هـــــا أنت تاركـــــــه</span>
+						<span>فكــم من قاضيين في النــار أنت حاكمهمــا</span> <span class="dots">. . .</span> <span>وفي فيء اللــــــــــــــعان أنت آخــــــــــــــــذه</span>
+						<span>أأنت حجيجـــــــــــــــــــــه فيــــــــــــــــــــــهم</span> <span class="dots">. . .</span> <span>وقد زعـــــــــــــــــــــمت مخافتــــــــــــــــــــــه</span>
+						<span>أم أنت حُمِّــــــــلت أوزارهــــــــم يومهـــــــــا</span> <span class="dots">. . .</span> <span>إذ كنت ثالثـــــــــــــــــــــــــــــــــــــــــــــــهم</span>
+					</div>
+				</li>
+				<li>
+					<time datetime="2026-11-17">17 Nov 2026</time>
+					<div class="aligned-prose">
+						<span>والنفس تبــغي فيــئا عن صغــار وفي جــزع</span> <span class="dots">. . .</span> <span>ارتضــــــته عيـــــــن المكر في ســـــــنن اللئاما</span>
+						<span>ومطمـــئن فيء النفس ســكنى الهوى كنفٌ</span> <span class="dots">. . .</span> <span>ارتضـــــــته عيــــــن الروح يســــــــرا وإجمالا</span>
+						<span>فمــن قبــل رأيتني جميــــل الحلة قائم الطلعـة</span> <span class="dots">. . .</span> <span>ســــــــالكا درب الدجى عــــــــــــــودا وريبة</span>
+						<span>واليـــــــوم أرى مطمــــــئن كنف ربــــــــي</span> <span class="dots">. . .</span> <span>هو خيـــــر من الدنيــا عوضــــا وأتم إشراقــــا</span>
+					</div>
+				</li>
+				<li>
+					<time datetime="2026-11-17">17 Nov 2026</time>
+					<h3>
+						On Modeling Highly Subjective Conflicts
+					</h3>
+					<p>
+						In domains of interaction that are characterized by highly subjective outcomes (e.g. crude humor, fights, etc.), the subject parties can either knowingly or unknowingly be participating in them. Additionally, such domains of interaction are characterized by having each party's states of awareness to the action of participating, in either the domain of interaction itself, or that of its consequences, which already includes how subjectively acceptable a level of consequence might be, being mutually disjoint. A recursive consequential process, in that regard, dictates that the party which results in a higher average of instance ratios, where the level of anger restraint in an instance (i.e. turn) is divided by the impact of its respective consequence taken (i.e. The level of anger restraint does not necessarily have to correlate with the impact of the consequence taken during a specific turn), emerges victorious. Such criterion is a party-specific one that is computed as a harmonic mean that is weighted by the latencies taken for reciprocating consequences during turns; moreover, such latencies are affected by the levels of anger restraint being exercised.
+					</p>
+				</li>
+			</ol>
+		<footer>Updated now and then.</footer>
+  	</main>
+  </div>
+
+  <!-- IMPORTED RESUME TARGET -->
+  <div id="resume-slot" class="hidden"></div>
+
+  <!-- INLINE RESUME TEMPLATE (imported on toggle) -->
+  <template id="resume-template">
+		<div class="layout">
+			<!-- LEFT SIDEBAR -->
+			<aside class="sidebar">
+				<div class="sidebar-top-bar"></div>
+				<div class="sidebar-content">
+				  
+				  <h1 class="name">
+				    Mohamed Ibrahim <span class="surname">Behery</span>
+				  </h1>
+
+				  <!-- Contact Details -->
+				  <h2 class="head-left">Contact details</h2>
+				  <div class="contact-info">
+				    <div>
+				      <i class="fa fa-at"></i>
+				      <a href="mailto:m-behery@outlook.com">m-behery@outlook.com</a>
+				    </div>
+				    <div>
+				      <i class="fa fa-phone"></i>
+				      <a href="tel:+201007891101">+20&nbsp;100&nbsp;789&nbsp;1101</a><sup>1</sup>
+				    </div>
+				    <div class="social-row">
+				      <span><i class="fa fa-github"></i><a href="https://github.com/m-behery">m-behery</a><sup>2</sup></span>
+				      <span><i class="fa fa-coffee"></i><a href="https://m-behery.github.io/personal-thoughts">blog</a><sup>3</sup></span>
+				      <span><i class="fa fa-linkedin"></i><a href="https://linkedin.com/in/m-behery">m-behery</a><sup>4</sup></span>
+				    </div>
+
+				    <div class="footnotes">
+				      <div><sup>1</sup> A Vodafone EG's ones' complement sandwich of &lsquo;789&rsquo;</div>
+				      <div><sup>2</sup> I only post meaningful repos&mdash;some are still in-progress</div>
+				      <div><sup>3</sup> Just a semi-diary for personal thoughts</div>
+				      <div><sup>4</sup> I have long abandoned this for being too plastic</div>
+				    </div>
+				  </div>
+
+				  <!-- Tech Stack -->
+				  <h2 class="head-left">Tech Stack</h2>
+				  <div class="sub-block">
+				    <div class="fg-zero-bold">ML Frameworks<sup>*</sup></div>
+				    <div>PyTorch, JAX</div>
+				  </div>
+				  <div class="sub-block">
+				    <div class="fg-zero-bold">Research Topics of Interest<sup>*</sup></div>
+				    <div>Modeling Bio-inspired Learning Mechanisms | Micro-/Macro-architectures of Interpretable Feature-Space Transformation Mechanisms | Attention Mechanisms within State-Space Models for Sequences | Advanced DSP Algorithms</div>
+				  </div>
+				  <div class="sub-block">
+				    <div class="fg-zero-bold">Documentation &amp; Presentation Tools</div>
+				    <div>LaTeX</div>
+				  </div>
+			    <div class="footnotes">
+			      <div><sup>*</sup> My expertise is not limited to my interests</div>
+			    </div>
+
+				  <!-- Professional Interests -->
+				  <h2 class="head-left">Professional Interests</h2>
+				  <ul class="sidebar-list">
+				    <li>Scientific Research Opportunities</li>
+				    <li>Advanced ML Curriculum Preparation</li>
+				    <li>Teaching and Mentorship</li>
+				  </ul>
+
+				  <!-- Spoken Languages -->
+				  <h2 class="head-left">Spoken Languages</h2>
+				  <div class="sub-block">
+				    <div><span class="fg-zero-bold">Arabic</span> (Bilingual)</div>
+				    <div><span class="fg-zero-bold">English</span> (Bilingual)</div>
+				  </div>
+
+				  <!-- Education -->
+				  <h2 class="head-left">Education</h2>
+				  <div class="edu-item">
+				    <div class="fg-zero-bold">MSc Computer Engineering</div>
+				    <div><em>Arab Academy for Science &amp; Technology</em> (2024&ndash;pres.)</div>
+				    <div><em>Thesis Topic: <span class="orange-link">A Dynamic Convolution Layer for SOTA Architectures with Inputs of Spectro-temporal Nature</span></em></div>
+				    <div>GPA: 3.50/4.00</div>
+				  </div>
+
+				  <div class="edu-item">
+				    <div class="fg-zero-bold">MSc Cognitive Electronics</div>
+				    <div><em>Tallinna Tehnika&uuml;likool</em> (2014&ndash;2018)</div>
+				    <div><em>Thesis: <a class="orange-link" href="https://digikogu.taltech.ee/et/item/4758c889-c753-4bcd-ae7e-60889897c98d">Prototyping a Pneumatic Stepper Drive for Exoskeleton Actuators</a></em></div>
+				    <div>GPA: 4.25/5.00</div>
+				  </div>
+
+				  <!-- References -->
+				  <h2 class="head-left">References | Thesis Supervisors</h2>
+				  
+				  <div class="ref-group-header">[TalTech &ndash; 2018]</div>
+				  <div class="ref-row">
+				    <strong>Dr. Rauno Gordon</strong>
+				    <span><a class="orange-link" href="tel:+37253405959">Mobile</a> &ndash; <a class="orange-link" href="mailto:rauno002@gmail.com">Email</a></span>
+				  </div>
+
+				  <div class="ref-group-header">[AASTMT &ndash; Pres.]</div>
+				  <div class="ref-row">
+				    <strong>Asst. Prof. Fahima Maghraby</strong><a class="orange-link" href="mailto:fahima@aast.com">Email</a></span>
+				  </div>
+				  <div class="ref-row">
+				    <strong>Dr. Wesam A. Askar</strong>
+				    <span><a class="orange-link" href="tel:+201115144344">Mobile</a> &ndash; <a class="orange-link" href="mailto:wesamaaa@aast.com">Email</a></span>
+				  </div>
+				  <div class="ref-row">
+				    <strong>Prof. Sherif F. Fahmy</strong>
+				    <span><a class="orange-link" href="tel:+201224469125">Mobile</a> &ndash; <a class="orange-link" href="mailto:fahmy@aast.edu">Email</a></span>
+				  </div>
+
+				</div>
+			</aside>
+
+			<!-- RIGHT MAIN CONTENT -->
+			<main class="main-content">
+				
+				<h2 class="head-right">Personal Summary</h2>
+				<p class="summary">
+				  Exploring the scenic route to scientific research opportunities since late 2015, I'm a Software Developer with a tendency to extrapolate on my studies from textbooks and academic papers. Having a deep interest in translating AI-specific mathematical constructs into interpretable symantic beddings for developing and delivering scientific-research-oriented curricula, whilst mathematically deriving others and implementing them into high-fidelity pipelines of interpretable feature-transformation mappings through codebases that target minimal technical debt.
+				</p>
+
+				<h2 class="head-right">Research Experience</h2>
+
+				<!-- Item I -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">I. Input-Domain-Specific Dynamic Convolutional Layer</span>
+				    <span class="research-date">Pres.</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> Mathematical derivation and JAX implementation of a new dynamic convolutional learning mechanism that works with feature-spaces of the spectro-temporal nature (i.e. Spectrogram-like).
+				    <span class="diamond">&diamond;</span> Obscured until publishing.
+				  </div>
+				</article>
+
+				<!-- Item II -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">II. Revisiting <a class="orange-link" href="https://arxiv.org/abs/2407.18223">ReDimNet</a>: The Fourth Alternative</span>
+				    <span class="research-date">Pres.</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> Suggesting an alternative micro-architecture for the Block 1D and 2D units in the ReDimNet pipeline that adjusts for and uses the complexities offered by the dynamic convolution layer currently in-design to enhance the footprint of the SOTA speaker verification model.
+				    <span class="diamond">&diamond;</span> Obscured until publishing.
+				  </div>
+				</article>
+
+				<!-- Item III -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">III. Neurological System Identification for Motor Coordination</span>
+				    <span class="research-date">Pres.</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> Finalizing the mathematical derivation of a research proposal for a &ldquo;MoCAP and EMG profiling&rdquo; ML research experiment to model the mind's preference of certain muscle groups over others.
+				    <span class="diamond">&diamond;</span> Uses Optimal Control Theory and Model Driven Control principles; including the State-Space Model Equations, the Hamiltonian cost function, and Pontryagin's Maximum Principle.
+				    <span class="diamond">&diamond;</span> Low-priority development cycle due to working by myself.
+				  </div>
+				</article>
+
+				<!-- Item IV -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">IV. Edge-deployable Realtime Speaker Anonymization Pipeline</span>
+				    <span class="research-date">Pres.</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> Preparing the research proposal and suggesting the macro-architectures for the inference and SSL training pipelines.
+				    <span class="diamond">&diamond;</span> In accordance with the requirements of the VoicePrivacy 2024 and 2026 Challenges.
+				    <span class="diamond">&diamond;</span> Low-priority development cycle due to working by myself.
+				  </div>
+				</article>
+
+				<!-- Item V -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">V. TSP-clustering for Video Frame Segmentation</span>
+				    <span class="research-date">Jul 25</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> A PyTorch temporal SSN implementation that reuses a RAFT model codebase, for computing optical flows, with an intent to deploy it as a feature in a video frame object annotating software of my development.
+				    <span class="diamond">&diamond;</span> Archived in a previous work-place.
+				    <span class="diamond">&diamond;</span> Not subjected to a non-compete agreement.
+				  </div>
+				</article>
+
+				<!-- Item VI -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">VI. <a class="orange-link" href="https://github.com/m-behery/sprinkler-distribution-evaluator">Sprinkler Distribution Evaluator</a></span>
+				    <span class="research-date">Jul 25</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> An open-source tool for evaluating sprinkler configurations across irrigation zones.
+				    <span class="diamond">&diamond;</span> Uses an MVVM architecture and image processing mechanisms, the latter being developed from scratch to fit a scientifically computational functional requirement.
+				  </div>
+				</article>
+
+				<!-- Item VII -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">VII. Wearable Sensorics-based Profiling</span>
+				    <span class="research-date">May 24</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> NDA-bound.
+				  </div>
+				</article>
+
+				<!-- Item VIII -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">VIII. 5-DoF Pneumatic Exoskeleton Arm</span>
+				    <span class="research-date">Feb 21</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> Mechanically designing a 30kg wearable robotic arm capable of handling payloads upto 60kg.
+				    <span class="diamond">&diamond;</span> Archived due to insufficient funds.
+				  </div>
+				</article>
+
+				<!-- Item IX -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">IX. Biometric Signal Processing</span>
+				    <span class="research-date">Jul 20</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> Replicating two research literature articles for developing data-less biometric signal processing algorithms.
+				    <span class="diamond">&diamond;</span> Details are NDA-bound.
+				  </div>
+				</article>
+
+				<!-- Item X -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">X. <a class="orange-link" href="https://digikogu.taltech.ee/et/item/4758c889-c753-4bcd-ae7e-60889897c98d">Stepper Drive for Exoskeleton Actuation</a></span>
+				    <span class="research-date">Jun 18</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> Applying experimental mechanics to model and simulate fluid-transients with a PWM-actuated pneumatic circuit.
+				    <span class="diamond">&diamond;</span> Mechanical design, PCB design, firmware development, and client testbench software development of a research prototype to identify two empirical constants discovered in the analysis stage.
+				    <span class="diamond">&diamond;</span> Modifying the valve placement to allow for an air-lock compressed-air-packet feeding mechanism to induce the stepping control desired in the double acting pneumatic cylinder prototype.
+				    <span class="diamond">&diamond;</span> Running no-load tests and documenting in a technical report / design manual.
+				    <span class="diamond">&diamond;</span> Archived from subsequent development due to insufficient funds.
+				  </div>
+				</article>
+
+				<!-- Item XI -->
+				<article class="research-item">
+				  <div class="research-header">
+				    <span class="research-title">XI. TU Darmstadt's <a class="orange-link" href="https://www.researchgate.net/publication/261220283_BOrEScOPE_-_Exoskeleton_for_Active_Surgeon_Support_during_Orthopedic_Surgery">BOrEScOPE</a> Project</span>
+				    <span class="research-date">Aug 15</span>
+				  </div>
+				  <div class="smaller-point">
+				    <span class="diamond">&diamond;</span> As an intern, developed firmware for the actuation, sensory, and communication modules for the EMK Institute&rsquo;s BOrEScOPE project.
+				    <span class="diamond">&diamond;</span> My internship was after the project's paper got published.
+				    <span class="diamond">&diamond;</span> Hardware details are NDA-bound.
+				  </div>
+				</article>
+
+			</main>
+		</div>
+  </template>
 
   <script>
+    // Thought counter
+    document.getElementById('thought-count').textContent =
+      document.querySelectorAll('#prose-list > li').length;
+
+    // Theme toggle
     const themeBtn = document.getElementById('theme-toggle');
-    const viewBtn = document.getElementById('view-toggle');
-    const viewLabel = document.getElementById('view-toggle-label');
-    const slot = document.getElementById('content-slot');
     const root = document.documentElement;
-
-    const FILES = {
-      'personal-thoughts': 'personal-thoughts.htm',
-      about: 'about.htm'
-    };
-
-    const cache = {};
-    let currentView = 'personal-thoughts';
 
     themeBtn.addEventListener('click', () => {
       const isDark = root.getAttribute('data-theme') === 'dark' ||
@@ -190,91 +862,34 @@
       localStorage.setItem('site-theme', next);
     });
 
-    function scopeImportedCss(cssText) {
-      return cssText.replace(/(^|[}\s,])body(?=\s*[,{])/g, '$1#content-slot');
-    }
+    // Resume import toggle
+    const resumeBtn = document.getElementById('resume-toggle');
+    const resumeLabel = document.getElementById('resume-toggle-label');
+    const thoughtsView = document.getElementById('thoughts-view');
+    const resumeSlot = document.getElementById('resume-slot');
+    const resumeTpl = document.getElementById('resume-template');
+    let resumeImported = false;
+    let showingResume = false;
 
-    function syncThoughtCounter() {
-      const proseList = slot.querySelector('#prose-list');
-      const thoughtCount = slot.querySelector('#thought-count');
-      if (proseList && thoughtCount) {
-        thoughtCount.textContent = proseList.querySelectorAll(':scope > li').length;
-      }
-    }
-
-    async function importView(viewName) {
-      const fileName = FILES[viewName];
-      const targetUrl = new URL(fileName, window.location.href);
-
-      if (!cache[viewName]) {
-        const res = await fetch(targetUrl);
-        if (!res.ok) throw new Error(`HTTP ${res.status}`);
-        const raw = await res.text();
-        const doc = new DOMParser().parseFromString(raw, 'text/html');
-
-        const styleTexts = Array.from(doc.querySelectorAll('style'))
-          .map((styleEl) => scopeImportedCss(styleEl.textContent));
-
-        const bodyClone = doc.body.cloneNode(true);
-        bodyClone
-          .querySelectorAll('.top-controls, #theme-toggle, #view-toggle, #resume-toggle, #about-toggle')
-          .forEach((el) => el.remove());
-
-        const scripts = Array.from(bodyClone.querySelectorAll('script'))
-          .map((s) => ({ src: s.src || null, text: s.textContent }));
-        bodyClone.querySelectorAll('script').forEach((s) => s.remove());
-
-        cache[viewName] = {
-          styleTexts,
-          html: bodyClone.innerHTML,
-          scripts
-        };
-      }
-
-      const entry = cache[viewName];
-      slot.innerHTML = '';
-
-      entry.styleTexts.forEach((css) => {
-        const styleEl = document.createElement('style');
-        styleEl.textContent = css;
-        slot.appendChild(styleEl);
-      });
-
-      const container = document.createElement('div');
-      container.innerHTML = entry.html;
-      while (container.firstChild) {
-        slot.appendChild(container.firstChild);
-      }
-
-      entry.scripts.forEach((s) => {
-        const scriptEl = document.createElement('script');
-        if (s.src) {
-          scriptEl.src = s.src;
-        } else {
-          scriptEl.textContent = s.text;
+    resumeBtn.addEventListener('click', () => {
+      if (!showingResume) {
+        if (!resumeImported) {
+          resumeSlot.appendChild(resumeTpl.content.cloneNode(true));
+          resumeImported = true;
         }
-        slot.appendChild(scriptEl);
-      });
-
-      syncThoughtCounter();
-
-      document.title = viewName === 'about' ? 'About' : 'Personal Thoughts';
-      viewLabel.textContent = viewName === 'about' ? 'Personal Thoughts' : 'About';
-      window.scrollTo(0, 0);
-    }
-
-    viewBtn.addEventListener('click', async () => {
-      const nextView = currentView === 'personal-thoughts' ? 'about' : 'personal-thoughts';
-      try {
-        await importView(nextView);
-        currentView = nextView;
-      } catch (err) {
-        slot.innerHTML = `<div class="import-error"><p>Could not import <code>${FILES[nextView]}</code> (${err.message}). Make sure it is deployed next to <code>index.htm</code>.</p></div>`;
+        thoughtsView.classList.add('hidden');
+        resumeSlot.classList.remove('hidden');
+        resumeLabel.textContent = 'Personal Thoughts';
+        document.title = 'Mohamed Ibrahim Behery - CV';
+        showingResume = true;
+      } else {
+        resumeSlot.classList.add('hidden');
+        thoughtsView.classList.remove('hidden');
+        resumeLabel.textContent = 'About';
+        document.title = 'Personal Thoughts';
+        showingResume = false;
       }
-    });
-
-    importView('personal-thoughts').catch((err) => {
-      slot.innerHTML = `<div class="import-error"><p>Could not import <code>${FILES['personal-thoughts']}</code> (${err.message}). Make sure it is deployed next to <code>index.htm</code>.</p></div>`;
+      window.scrollTo(0, 0);
     });
   </script>
 </body>
