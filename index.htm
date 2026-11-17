@@ -50,6 +50,17 @@
       color: var(--muted);
       font-style: italic;
     }
+    .thought-counter {
+      font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+    .thought-counter strong {
+      color: var(--accent);
+      font-weight: normal;
+    }
     ol {
       list-style: none;
       margin: 0;
@@ -101,9 +112,9 @@
       <h1>Personal Thoughts</h1>
       <p>Small notes, kept for later.</p>
     </header>
-
+		<p class="thought-counter">Thoughts posted: <strong id="thought-count">0</strong></p>
     <!-- Add a new thought by copying an <li> block to the top of this list. -->
-    <ol>
+    <ol id="prose-list">
 			<li>
 		    <time datetime="2026">2026</time>
 		    <div class="aligned-prose">
@@ -168,9 +179,22 @@
 					<span>أم أنت حُمِّــــــــلت أوزارهــــــــم يومهـــــــــا</span> <span class="dots">. . .</span> <span>إذ كنت ثالثـــــــــــــــــــــــــــــــــــــــــــــــهم</span>
 				</div>
       </li>
+      <li>
+				<time datetime="2026-11-17">17 Nov 2026</time>
+				<div class="aligned-prose">
+					<span>والنفس تبــغي فيــئا عن صغــار وفي جــزع</span> <span class="dots">. . .</span> <span>ارتضــــــته عيـــــــن المكر في ســـــــنن اللئاما</span>
+					<span>ومطمــــئن فيء النفس ســكنى الهوى كنفا</span> <span class="dots">. . .</span> <span>ارتضـــــــته عيــــــن الروح يســــــــرا وإجمالا</span>
+					<span>فمــن قبــل رأيتني جميــــل الحلة قائم الطلعـة</span> <span class="dots">. . .</span> <span>ســــــــالكا درب الدجى عــــــــــــــودا وريبة</span>
+					<span>واليـــــــوم أرى مطمــــــئن كنف ربــــــــي</span> <span class="dots">. . .</span> <span>هو خيـــــر من الدنيــا عوضــــا وأتم إشراقــــا</span>
+				</div>
+			</li>
     </ol>
 
     <footer>Updated now and then.</footer>
   </main>
+  <script>
+    document.getElementById('thought-count').textContent =
+      document.querySelectorAll('#prose-list > li').length;
+  </script>
 </body>
 </html>
