@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Blog — Notes &amp; Thoughts</title>
+  <title>Personal Thoughts</title>
   <meta name="description" content="Personal Thoughts and Interpretable Machine Learning notes.">
 
-  <!-- Fonts: Fira Sans & Amiri -->
+  <!-- Fonts: Fira Sans & Amiri (Arabic couplets) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -101,7 +101,7 @@
     .top-bar {
       position: fixed;
       top: 1rem;
-      left: 1rem;
+      right: 1rem;
       z-index: 100;
       display: flex;
       gap: 0.45rem;
@@ -118,8 +118,7 @@
       border-radius: 3px;
     }
 
-    .ctrl-btn:hover,
-    .ctrl-btn[aria-pressed="true"] {
+    .ctrl-btn:hover {
       border-color: var(--gb-orange);
       color: var(--gb-orange);
     }
@@ -210,6 +209,29 @@
       color: var(--gb-fg-one);
     }
 
+    #thoughts-view .aligned-prose {
+      display: grid;
+      grid-template-columns: 1fr max-content 1fr;
+      gap: 12px 20px;
+      direction: rtl;
+      font-family: 'Amiri', 'Traditional Arabic', serif;
+      font-size: 1.25rem;
+      line-height: 1.85;
+    }
+
+    #thoughts-view .aligned-prose span:nth-child(3n + 1) {
+      text-align: right;
+    }
+
+    #thoughts-view .dots {
+      color: var(--muted);
+      text-align: center;
+    }
+
+    #thoughts-view .aligned-prose span:nth-child(3n + 3) {
+      text-align: left;
+    }
+
     .highlight-assume {
       color: var(--gb-orange);
     }
@@ -242,7 +264,7 @@
 
   <div class="top-bar" role="group" aria-label="Page selector">
     <button id="toggle-page-btn" type="button" class="ctrl-btn" data-current="thoughts">
-      Load Interpretable ML
+      Interpretable Machine Learning
     </button>
   </div>
 
@@ -253,7 +275,7 @@
         <p id="page-subtitle">Small notes, kept for later.</p>
       </header>
 
-      <p class="thought-counter">Entries imported: <strong id="thought-count">0</strong></p>
+      <p class="thought-counter">Entries posted: <strong id="thought-count">0</strong></p>
 
       <div id="content-slot">
         <p class="status-note">Loading content...</p>
@@ -273,9 +295,9 @@
         hasMath: false
       },
       iml: {
-        url: 'interpretable-machine-learning.htm',
+        url: 'intrepretable-machine-learning.htm',
         title: 'Interpretable Machine Learning',
-        subtitle: 'From first principles to modern architectures: notes on physical meaning and interpretable inference.',
+        subtitle: 'First-principles notes on physical meanings and inferential mechanics.',
         buttonLabel: 'Personal Thoughts',
         hasMath: true
       }
@@ -319,7 +341,7 @@
           await window.MathJax.typesetPromise([slot]);
         }
       } catch (err) {
-        slot.innerHTML = `<p class="status-note">Could not load <code>${cfg.url}</code> (${err.message}). Serve over HTTP/HTTPS (e.g. GitHub Pages or a local server) rather than <code>file://</code>.</p>`;
+        slot.innerHTML = `<p class="status-note">Could not load <code>${cfg.url}</code> (${err.message}). Serve over HTTP/HTTPS rather than <code>file://</code>.</p>`;
       }
     }
 
