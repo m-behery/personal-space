@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Personal Thoughts</title>
+  <meta name="description" content="Personal Thoughts of Mohamed Ibrahim Behery.">
+
+  <!-- Fonts: Fira Sans & Amiri (Arabic couplets) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+  <!-- Icons: FontAwesome 4 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <style>
+    :root {
+      /* Deep Warm Parchment / Gruvbox Light Soft Palette */
+      --gb-bg-soft: #ebd9b4;
+      --gb-bg-one:  #dec598;
+      --gb-bg-two:  #b89b6e;
+      --gb-fg-one:  #362c23;
+      --gb-fg-zero: #211912;
+      --gb-orange:  #9c2b00;
+      --gb-yellow:  #8f5104;
+
+      --paper:  #f2e5bc;
+      --ink:    #3c3836;
+      --muted:  #7c6f64;
+      --rule:   #d5c4a1;
+      --accent: #af3a03;
+    }
+
+    /* System Dark Mode */
+    @media screen and (prefers-color-scheme: dark) {
+      :root:not([data-theme="light"]) {
+        --gb-bg-soft: #32302f;
+        --gb-bg-one:  #282828;
+        --gb-bg-two:  #504945;
+        --gb-fg-one:  #ebdbb2;
+        --gb-fg-zero: #fbf1c7;
+        --gb-orange:  #fe8019;
+        --gb-yellow:  #fabd2f;
+
+        --paper:  #32302f;
+        --ink:    #ebdbb2;
+        --muted:  #a89984;
+        --rule:   #504945;
+        --accent: #fe8019;
+      }
+    }
+
+    /* Manual Dark Mode Override */
+    :root[data-theme="dark"] {
+      --gb-bg-soft: #32302f;
+      --gb-bg-one:  #282828;
+      --gb-bg-two:  #504945;
+      --gb-fg-one:  #ebdbb2;
+      --gb-fg-zero: #fbf1c7;
+      --gb-orange:  #fe8019;
+      --gb-yellow:  #fabd2f;
+
+      --paper:  #32302f;
+      --ink:    #ebdbb2;
+      --muted:  #a89984;
+      --rule:   #504945;
+      --accent: #fe8019;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--paper);
+      color: var(--ink);
+      min-height: 100vh;
+    }
+
+    .ctrl-btn {
+      background: var(--gb-bg-one);
+      color: var(--gb-fg-zero);
+      border: 1px solid var(--gb-bg-two);
+      padding: 5px 10px;
+      font-family: 'Fira Sans', sans-serif;
+      font-size: 0.82rem;
+      cursor: pointer;
+      border-radius: 3px;
+    }
+
+    .ctrl-btn:hover {
+      border-color: var(--gb-orange);
+      color: var(--gb-orange);
+    }
+
+    .hidden {
+      display: none !important;
+    }
+
+    /* ==================== PERSONAL THOUGHTS STYLES ==================== */
+    #thoughts-view {
+      background: var(--paper);
+      color: var(--ink);
+      font: 18px/1.65 Georgia, "Iowan Old Style", "Palatino Linotype", serif;
+    }
+
+    #thoughts-view main {
+      max-width: 41rem;
+      margin: 0 auto;
+      padding: 4.5rem 1.5rem 5rem;
+    }
+
+    #thoughts-view header {
+      margin-bottom: 3rem;
+    }
+
+    #thoughts-view h1 {
+      font-size: 2.4rem;
+      font-weight: normal;
+      letter-spacing: -0.01em;
+      margin: 0 0 0.4rem;
+    }
+
+    #thoughts-view header p {
+      margin: 0;
+      color: var(--muted);
+      font-style: italic;
+    }
+
+    /* Summary / Bio Box Styles */
+    .summary-box {
+      margin-bottom: 2.5rem;
+      padding: 1.5rem 1.75rem;
+      border-left: 3px solid var(--accent);
+      background: var(--gb-bg-soft);
+      font-family: 'Fira Sans', sans-serif;
+      font-size: 0.95rem;
+      line-height: 1.6;
+      color: var(--gb-fg-one);
+      border-radius: 0 4px 4px 0;
+    }
+
+    .summary-box h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--gb-orange);
+      margin-bottom: 0.5rem;
+    }
+
+    .summary-box p {
+      margin: 0;
+    }
+
+    #thoughts-view .thought-counter {
+      font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+    }
+
+    #thoughts-view .thought-counter strong {
+      color: var(--accent);
+      font-weight: normal;
+    }
+
+    #thoughts-view ol {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+    }
+
+    #thoughts-view li {
+      padding: 1.6rem 0;
+      border-top: 1px solid var(--rule);
+    }
+
+    #thoughts-view li:last-child {
+      border-bottom: 1px solid var(--rule);
+    }
+
+    #thoughts-view time {
+      display: block;
+      font: 0.75rem/1 ui-monospace, "SF Mono", Menlo, Consolas, monospace;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 0.6rem;
+    }
+
+    #thoughts-view li h3 {
+      margin: 0 0 2.0rem;
+      font-weight: normal;
+    }
+
+    #thoughts-view li p {
+      margin: 0;
+    }
+
+    #thoughts-view footer {
+      margin-top: 3rem;
+      color: var(--muted);
+      font-size: 0.85rem;
+    }
+
+    #thoughts-view .aligned-prose {
+      display: grid;
+      grid-template-columns: 1fr max-content 1fr;
+      gap: 12px 20px;
+      direction: rtl;
+      font-family: 'Amiri', 'Traditional Arabic', serif;
+    }
+
+    #thoughts-view .aligned-prose span:nth-child(3n + 1) {
+      text-align: right;
+    }
+
+    #thoughts-view .dots {
+      color: var(--muted);
+      text-align: center;
+    }
+
+    #thoughts-view .aligned-prose span:nth-child(3n + 3) {
+      text-align: left;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- DEFAULT INDEX VIEW: PERSONAL THOUGHTS -->
+  <div id="thoughts-view">
+		<main>
+			<header>
+			  <h1>Personal Thoughts</h1>
+			  <p>Small notes, kept for later.</p>
+			</header>
+			<p class="thought-counter">Thoughts posted: <strong id="thought-count">0</strong></p>
+			<!-- Add a new thought by copying an <li> block to the top of this list. -->
+			<ol id="prose-list">
+				<li>
+					<time datetime="2026">2026</time>
+					<div class="aligned-prose">
+						  <span>فكم من عين ذل لا ترى عزا أينمــــا وجهتها</span> <span class="dots">. . .</span> <span>وعقل يقبـــــل الضيم مــــن جيف الجهــــــال</span>
+						  <span>فعـــــزا من لدنه شواهـــق الجبال قد عقدت</span> <span class="dots">. . .</span> <span>وجعلت معارجــــــــها من شــــــديد المحـــــال</span>
+						  <span>فلا ابتغاهــــا جاهـل وإن ادعاهــــا لقومـــــه</span> <span class="dots">. . .</span> <span>ولا وفقــــــها سيــــد وإن ادعــــــى الأسباب</span>
+						  <span>وهذا بيـت أستودعـــــه عند ربـــــي لعلّـــــي</span> <span class="dots">. . .</span> <span>أدرك مناط العز عن سرٍ ومن شوق وإحسان</span> 
+					</div>
+				</li>
+				<li>
+				  <time datetime="2026">2026</time>
+				  <p>
+						For 10 years I have wanted to destroy you. Yet suddenly, I have outgrown everything about you; for kindness in a man, or the lack thereof, is a reminder for those upon whom resolve is bestowed, a beautiful mercy within everyone.
+				  </p>
+				</li>
+				<li>
+					<time datetime="2026-06-22">22 JUN 2026</time>
+					<h3>
+						On Modeling Awareness & Perceived Maturity of Decisions
+					</h3>
+				  <p>
+						When one to several parties are involved in a certain domain of interaction where each party can sample a decision from a given state-space, each decision made, either conditionally or in a mutually exclusive manner, influences both the outcome, objectively speaking, and how that outcome is perceived by each party, subjectively speaking.
+					</p></br>
+				  <p>
+						An <i>objective paradigm</i> of an outcome is the least common denominator of evaluation shared by all the parties, anything above that can be considered an element of the party's <i>subjective paradigm</i>, which can be used to characterize that party strictly within the confines of the domain of interaction.
+					</p></br>
+				  <p>
+						The best possible outcome for each party, interacting in a domain, only takes into account its own subjective paradigm; such outcome for each party is affected by:</br>
+						&emsp;&bull; Independent occurrences of uncontrolled events</br>
+						&emsp;&bull; The non-conscious decisions made by each party involved</br>
+						&emsp;&bull; The conscious decisions that are based on a minimum amount self-awareness</br>
+					</p></br>
+				  <p>
+						Self-awareness is the ability of each party to recognize:</br>
+						&emsp;&bull; The objective paradigm shared</br>
+						&emsp;&bull; The subjective characteristics of each party involved including oneself</br>
+					</p></br>
+				  <p>
+						The level of maturity of each party can be self-evaluated by the probability of each decision successfully participating in the best possible subjective outcome. However, such level can be evaluated by other parties only via the objective outcome.
+					</p></br>
+				  <p>
+						Successful participation probability of each decision in the best possible outcome for an entire domain of interaction can recursively be evaluated via an intermediate outcome resulting from decisions in a narrower domain window, and so on.
+					</p></br>
+				</li>
+				<li>
+				  <time datetime="2026-10-30">30 OCT 2026</time>
+				  <p>
+				  	What golds can bring unto me, what I do not have within,</br>
+						What ripens to feast my soul upon, that does lie untold,</br>
+						Lovable asceticism, poetic contentment, dire fulfillment, a promise therein,</br>
+						The king of the world owns nothing, if he has no peace within,
+				  </p>
+				</li>
+				<li>
+				  <time datetime="2026-11-11">11 NOV 2026</time>
+					<div class="aligned-prose">
+						<span>من افتتـــــن بنفســــــه فحســــــبه ذرائـــــعها</span> <span class="dots">. . .</span> <span>ومن ود الحـق فيـــهن فحســـبه ذو الفضـــل</span>
+						<span>فاحذر من نعمة قد خبزت لعانا لا تجد فيها</span> <span class="dots">. . .</span> <span>أكنـــاف ربــــــــــك وعظيــــــم رحــــــمته</span>
+						<span>أفزعـــمت أن قوام العقـــد سيـــف قوامهـــا</span> <span class="dots">. . .</span> <span>وقد أوجز في قانــــــون هـــــا أنت تاركـــــــه</span>
+						<span>فكــم من قاضيين في النــار أنت حاكمهمــا</span> <span class="dots">. . .</span> <span>وفي فيء اللــــــــــــــعان أنت آخــــــــــــــــذه</span>
+						<span>أأنت حجيجـــــــــــــــــــــه فيــــــــــــــــــــــهم</span> <span class="dots">. . .</span> <span>وقد زعـــــــــــــــــــــمت مخافتــــــــــــــــــــــه</span>
+						<span>أم أنت حُمِّــــــــلت أوزارهــــــــم يومهـــــــــا</span> <span class="dots">. . .</span> <span>إذ كنت ثالثـــــــــــــــــــــــــــــــــــــــــــــــهم</span>
+					</div>
+				</li>
+				<li>
+					<time datetime="2026-11-17">17 Nov 2026</time>
+					<div class="aligned-prose">
+						<span>والنفس تبــغي فيــئا عن صغــار وفي جــزع</span> <span class="dots">. . .</span> <span>ارتضــــــته عيـــــــن المكر في ســـــــنن اللئاما</span>
+						<span>ومطمـــئن فيء النفس ســكنى الهوى كنفٌ</span> <span class="dots">. . .</span> <span>ارتضـــــــته عيــــــن الروح يســــــــرا وإجمالا</span>
+						<span>فمــن قبــل رأيتني جميــــل الحلة قائم الطلعـة</span> <span class="dots">. . .</span> <span>ســــــــالكا درب الدجى عــــــــــــــودا وريبة</span>
+						<span>واليـــــــوم أرى مطمــــــئن كنف ربــــــــي</span> <span class="dots">. . .</span> <span>هو خيـــــر من الدنيــا عوضــــا وأتم إشراقــــا</span>
+					</div>
+				</li>
+				<li>
+					<time datetime="2026-11-17">17 Nov 2026</time>
+					<h3>
+						On Modeling Highly Subjective Conflicts
+					</h3>
+					<p>
+						In domains of interaction that are characterized by highly subjective outcomes (e.g. crude humor, fights, etc.), the subject parties can either knowingly or unknowingly be participating in them. Additionally, such domains of interaction are characterized by having each party's states of awareness to the action of participating, in either the domain of interaction itself, or that of its consequences, which already includes how subjectively acceptable a level of consequence might be, being mutually disjoint. A recursive consequential process, in that regard, dictates that the party which results in a higher average of instance ratios, where the level of anger restraint in an instance (i.e. turn) is divided by the impact of its respective consequence taken (i.e. The level of anger restraint does not necessarily have to correlate with the impact of the consequence taken during a specific turn), emerges victorious. Such criterion is a party-specific one that is computed as a harmonic mean that is weighted by the latencies taken for reciprocating consequences during turns; moreover, such latencies are affected by the levels of anger restraint being exercised.
+					</p>
+				</li>
+			</ol>
+		<footer>Updated now and then.</footer>
+  	</main>
+  </div>
+
+  <!-- IMPORTED RESUME TARGET -->
+  <div id="resume-slot" class="hidden"></div>
+
+  <!-- INLINE RESUME TEMPLATE (imported on toggle) -->
+  <template id="resume-template">
+		<div class="layout">
+			<p class="summary">
+				Exploring the scenic route to scientific research opportunities since late 2015, I'm a Software Developer with a tendency to extrapolate on my studies from textbooks and academic papers. Having a deep interest in translating AI-specific mathematical constructs into interpretable symantic beddings for developing and delivering scientific-research-oriented curricula, whilst mathematically deriving others and implementing them into high-fidelity pipelines of interpretable feature-transformation mappings through codebases that target minimal technical debt.
+			</p>
+		</div>
+  </template>
+
+	<script>
+    // Thought counter
+    document.getElementById('thought-count').textContent =
+      document.querySelectorAll('#prose-list > li').length;
+  </script>
+</body>
+</html>

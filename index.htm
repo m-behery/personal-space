@@ -3,15 +3,34 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Personal Thoughts</title>
-  <meta name="description" content="Personal Thoughts of Mohamed Ibrahim Behery.">
+  <title>Blog — Notes &amp; Thoughts</title>
+  <meta name="description" content="Personal Thoughts and Interpretable Machine Learning notes.">
 
-  <!-- Fonts: Fira Sans & Amiri (Arabic couplets) -->
+  <!-- Fonts: Fira Sans & Amiri -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Fira+Sans:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-  <!-- Icons: FontAwesome 4 -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+  <script>
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        packages: {'[+]': ['cancel']}
+      },
+      loader: {
+        load: ['[tex]/cancel']
+      },
+      startup: {
+        typeset: false
+      },
+      options: {
+        skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+      }
+    };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 
   <style>
     :root {
@@ -79,27 +98,32 @@
       min-height: 100vh;
     }
 
+    .top-bar {
+      position: fixed;
+      top: 1rem;
+      left: 1rem;
+      z-index: 100;
+      display: flex;
+      gap: 0.45rem;
+    }
+
     .ctrl-btn {
       background: var(--gb-bg-one);
       color: var(--gb-fg-zero);
       border: 1px solid var(--gb-bg-two);
-      padding: 5px 10px;
+      padding: 6px 12px;
       font-family: 'Fira Sans', sans-serif;
       font-size: 0.82rem;
       cursor: pointer;
       border-radius: 3px;
     }
 
-    .ctrl-btn:hover {
+    .ctrl-btn:hover,
+    .ctrl-btn[aria-pressed="true"] {
       border-color: var(--gb-orange);
       color: var(--gb-orange);
     }
 
-    .hidden {
-      display: none !important;
-    }
-
-    /* ==================== PERSONAL THOUGHTS STYLES ==================== */
     #thoughts-view {
       background: var(--paper);
       color: var(--ink);
@@ -107,7 +131,7 @@
     }
 
     #thoughts-view main {
-      max-width: 41rem;
+      max-width: 48rem;
       margin: 0 auto;
       padding: 4.5rem 1.5rem 5rem;
     }
@@ -117,42 +141,17 @@
     }
 
     #thoughts-view h1 {
-      font-size: 2.4rem;
+      font-size: 2.2rem;
       font-weight: normal;
       letter-spacing: -0.01em;
       margin: 0 0 0.4rem;
+      color: var(--gb-fg-zero);
     }
 
     #thoughts-view header p {
       margin: 0;
       color: var(--muted);
       font-style: italic;
-    }
-
-    /* Summary / Bio Box Styles */
-    .summary-box {
-      margin-bottom: 2.5rem;
-      padding: 1.5rem 1.75rem;
-      border-left: 3px solid var(--accent);
-      background: var(--gb-bg-soft);
-      font-family: 'Fira Sans', sans-serif;
-      font-size: 0.95rem;
-      line-height: 1.6;
-      color: var(--gb-fg-one);
-      border-radius: 0 4px 4px 0;
-    }
-
-    .summary-box h2 {
-      font-size: 1.05rem;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--gb-orange);
-      margin-bottom: 0.5rem;
-    }
-
-    .summary-box p {
-      margin: 0;
     }
 
     #thoughts-view .thought-counter {
@@ -175,7 +174,7 @@
     }
 
     #thoughts-view li {
-      padding: 1.6rem 0;
+      padding: 1.8rem 0;
       border-top: 1px solid var(--rule);
     }
 
@@ -193,12 +192,36 @@
     }
 
     #thoughts-view li h3 {
-      margin: 0 0 2.0rem;
+      margin: 0 0 1.25rem;
+      font-size: 1.35rem;
       font-weight: normal;
+      color: var(--gb-fg-zero);
     }
 
     #thoughts-view li p {
-      margin: 0;
+      margin: 0 0 1rem;
+    }
+
+    #thoughts-view li p:last-child {
+      margin-bottom: 0;
+    }
+
+    #thoughts-view em {
+      color: var(--gb-fg-one);
+    }
+
+    .highlight-assume {
+      color: var(--gb-orange);
+    }
+
+    mjx-container[display="true"] {
+      background-color: var(--gb-bg-soft);
+      padding: 0.9rem 1.15rem;
+      border-radius: 4px;
+      border: 1px solid var(--rule);
+      border-left: 3px solid var(--accent);
+      overflow-x: auto;
+      margin: 1.1rem 0 !important;
     }
 
     #thoughts-view footer {
@@ -207,143 +230,106 @@
       font-size: 0.85rem;
     }
 
-    #thoughts-view .aligned-prose {
-      display: grid;
-      grid-template-columns: 1fr max-content 1fr;
-      gap: 12px 20px;
-      direction: rtl;
-      font-family: 'Amiri', 'Traditional Arabic', serif;
-    }
-
-    #thoughts-view .aligned-prose span:nth-child(3n + 1) {
-      text-align: right;
-    }
-
-    #thoughts-view .dots {
+    .status-note {
+      font-family: 'Fira Sans', sans-serif;
+      font-size: 0.9rem;
       color: var(--muted);
-      text-align: center;
-    }
-
-    #thoughts-view .aligned-prose span:nth-child(3n + 3) {
-      text-align: left;
+      padding: 1.5rem 0;
     }
   </style>
 </head>
 <body>
 
-  <!-- DEFAULT INDEX VIEW: PERSONAL THOUGHTS -->
-  <div id="thoughts-view">
-		<main>
-			<header>
-			  <h1>Personal Thoughts</h1>
-			  <p>Small notes, kept for later.</p>
-			</header>
-			<p class="thought-counter">Thoughts posted: <strong id="thought-count">0</strong></p>
-			<!-- Add a new thought by copying an <li> block to the top of this list. -->
-			<ol id="prose-list">
-				<li>
-					<time datetime="2026">2026</time>
-					<div class="aligned-prose">
-						  <span>فكم من عين ذل لا ترى عزا أينمــــا وجهتها</span> <span class="dots">. . .</span> <span>وعقل يقبـــــل الضيم مــــن جيف الجهــــــال</span>
-						  <span>فعـــــزا من لدنه شواهـــق الجبال قد عقدت</span> <span class="dots">. . .</span> <span>وجعلت معارجــــــــها من شــــــديد المحـــــال</span>
-						  <span>فلا ابتغاهــــا جاهـل وإن ادعاهــــا لقومـــــه</span> <span class="dots">. . .</span> <span>ولا وفقــــــها سيــــد وإن ادعــــــى الأسباب</span>
-						  <span>وهذا بيـت أستودعـــــه عند ربـــــي لعلّـــــي</span> <span class="dots">. . .</span> <span>أدرك مناط العز عن سرٍ ومن شوق وإحسان</span> 
-					</div>
-				</li>
-				<li>
-				  <time datetime="2026">2026</time>
-				  <p>
-						For 10 years I have wanted to destroy you. Yet suddenly, I have outgrown everything about you; for kindness in a man, or the lack thereof, is a reminder for those upon whom resolve is bestowed, a beautiful mercy within everyone.
-				  </p>
-				</li>
-				<li>
-					<time datetime="2026-06-22">22 JUN 2026</time>
-					<h3>
-						On Modeling Awareness & Perceived Maturity of Decisions
-					</h3>
-				  <p>
-						When one to several parties are involved in a certain domain of interaction where each party can sample a decision from a given state-space, each decision made, either conditionally or in a mutually exclusive manner, influences both the outcome, objectively speaking, and how that outcome is perceived by each party, subjectively speaking.
-					</p></br>
-				  <p>
-						An <i>objective paradigm</i> of an outcome is the least common denominator of evaluation shared by all the parties, anything above that can be considered an element of the party's <i>subjective paradigm</i>, which can be used to characterize that party strictly within the confines of the domain of interaction.
-					</p></br>
-				  <p>
-						The best possible outcome for each party, interacting in a domain, only takes into account its own subjective paradigm; such outcome for each party is affected by:</br>
-						&emsp;&bull; Independent occurrences of uncontrolled events</br>
-						&emsp;&bull; The non-conscious decisions made by each party involved</br>
-						&emsp;&bull; The conscious decisions that are based on a minimum amount self-awareness</br>
-					</p></br>
-				  <p>
-						Self-awareness is the ability of each party to recognize:</br>
-						&emsp;&bull; The objective paradigm shared</br>
-						&emsp;&bull; The subjective characteristics of each party involved including oneself</br>
-					</p></br>
-				  <p>
-						The level of maturity of each party can be self-evaluated by the probability of each decision successfully participating in the best possible subjective outcome. However, such level can be evaluated by other parties only via the objective outcome.
-					</p></br>
-				  <p>
-						Successful participation probability of each decision in the best possible outcome for an entire domain of interaction can recursively be evaluated via an intermediate outcome resulting from decisions in a narrower domain window, and so on.
-					</p></br>
-				</li>
-				<li>
-				  <time datetime="2026-10-30">30 OCT 2026</time>
-				  <p>
-				  	What golds can bring unto me, what I do not have within,</br>
-						What ripens to feast my soul upon, that does lie untold,</br>
-						Lovable asceticism, poetic contentment, dire fulfillment, a promise therein,</br>
-						The king of the world owns nothing, if he has no peace within,
-				  </p>
-				</li>
-				<li>
-				  <time datetime="2026-11-11">11 NOV 2026</time>
-					<div class="aligned-prose">
-						<span>من افتتـــــن بنفســــــه فحســــــبه ذرائـــــعها</span> <span class="dots">. . .</span> <span>ومن ود الحـق فيـــهن فحســـبه ذو الفضـــل</span>
-						<span>فاحذر من نعمة قد خبزت لعانا لا تجد فيها</span> <span class="dots">. . .</span> <span>أكنـــاف ربــــــــــك وعظيــــــم رحــــــمته</span>
-						<span>أفزعـــمت أن قوام العقـــد سيـــف قوامهـــا</span> <span class="dots">. . .</span> <span>وقد أوجز في قانــــــون هـــــا أنت تاركـــــــه</span>
-						<span>فكــم من قاضيين في النــار أنت حاكمهمــا</span> <span class="dots">. . .</span> <span>وفي فيء اللــــــــــــــعان أنت آخــــــــــــــــذه</span>
-						<span>أأنت حجيجـــــــــــــــــــــه فيــــــــــــــــــــــهم</span> <span class="dots">. . .</span> <span>وقد زعـــــــــــــــــــــمت مخافتــــــــــــــــــــــه</span>
-						<span>أم أنت حُمِّــــــــلت أوزارهــــــــم يومهـــــــــا</span> <span class="dots">. . .</span> <span>إذ كنت ثالثـــــــــــــــــــــــــــــــــــــــــــــــهم</span>
-					</div>
-				</li>
-				<li>
-					<time datetime="2026-11-17">17 Nov 2026</time>
-					<div class="aligned-prose">
-						<span>والنفس تبــغي فيــئا عن صغــار وفي جــزع</span> <span class="dots">. . .</span> <span>ارتضــــــته عيـــــــن المكر في ســـــــنن اللئاما</span>
-						<span>ومطمـــئن فيء النفس ســكنى الهوى كنفٌ</span> <span class="dots">. . .</span> <span>ارتضـــــــته عيــــــن الروح يســــــــرا وإجمالا</span>
-						<span>فمــن قبــل رأيتني جميــــل الحلة قائم الطلعـة</span> <span class="dots">. . .</span> <span>ســــــــالكا درب الدجى عــــــــــــــودا وريبة</span>
-						<span>واليـــــــوم أرى مطمــــــئن كنف ربــــــــي</span> <span class="dots">. . .</span> <span>هو خيـــــر من الدنيــا عوضــــا وأتم إشراقــــا</span>
-					</div>
-				</li>
-				<li>
-					<time datetime="2026-11-17">17 Nov 2026</time>
-					<h3>
-						On Modeling Highly Subjective Conflicts
-					</h3>
-					<p>
-						In domains of interaction that are characterized by highly subjective outcomes (e.g. crude humor, fights, etc.), the subject parties can either knowingly or unknowingly be participating in them. Additionally, such domains of interaction are characterized by having each party's states of awareness to the action of participating, in either the domain of interaction itself, or that of its consequences, which already includes how subjectively acceptable a level of consequence might be, being mutually disjoint. A recursive consequential process, in that regard, dictates that the party which results in a higher average of instance ratios, where the level of anger restraint in an instance (i.e. turn) is divided by the impact of its respective consequence taken (i.e. The level of anger restraint does not necessarily have to correlate with the impact of the consequence taken during a specific turn), emerges victorious. Such criterion is a party-specific one that is computed as a harmonic mean that is weighted by the latencies taken for reciprocating consequences during turns; moreover, such latencies are affected by the levels of anger restraint being exercised.
-					</p>
-				</li>
-			</ol>
-		<footer>Updated now and then.</footer>
-  	</main>
+  <div class="top-bar" role="group" aria-label="Page selector">
+    <button id="toggle-page-btn" type="button" class="ctrl-btn" data-current="thoughts">
+      Load Interpretable ML
+    </button>
   </div>
 
-  <!-- IMPORTED RESUME TARGET -->
-  <div id="resume-slot" class="hidden"></div>
+  <div id="thoughts-view">
+    <main>
+      <header>
+        <h1 id="page-title">Personal Thoughts</h1>
+        <p id="page-subtitle">Small notes, kept for later.</p>
+      </header>
 
-  <!-- INLINE RESUME TEMPLATE (imported on toggle) -->
-  <template id="resume-template">
-		<div class="layout">
-			<p class="summary">
-				Exploring the scenic route to scientific research opportunities since late 2015, I'm a Software Developer with a tendency to extrapolate on my studies from textbooks and academic papers. Having a deep interest in translating AI-specific mathematical constructs into interpretable symantic beddings for developing and delivering scientific-research-oriented curricula, whilst mathematically deriving others and implementing them into high-fidelity pipelines of interpretable feature-transformation mappings through codebases that target minimal technical debt.
-			</p>
-		</div>
-  </template>
+      <p class="thought-counter">Entries imported: <strong id="thought-count">0</strong></p>
 
-	<script>
-    // Thought counter
-    document.getElementById('thought-count').textContent =
-      document.querySelectorAll('#prose-list > li').length;
+      <div id="content-slot">
+        <p class="status-note">Loading content...</p>
+      </div>
+
+      <footer>Updated now and then.</footer>
+    </main>
+  </div>
+
+  <script>
+    const PAGES = {
+      thoughts: {
+        url: 'personal-thoughts.htm',
+        title: 'Personal Thoughts',
+        subtitle: 'Small notes, kept for later.',
+        buttonLabel: 'Interpretable ML',
+        hasMath: false
+      },
+      iml: {
+        url: 'interpretable-machine-learning.htm',
+        title: 'Interpretable Machine Learning',
+        subtitle: 'From first principles to modern architectures: notes on physical meaning and interpretable inference.',
+        buttonLabel: 'Personal Thoughts',
+        hasMath: true
+      }
+    };
+
+    const btn = document.getElementById('toggle-page-btn');
+    const slot = document.getElementById('content-slot');
+    const countEl = document.getElementById('thought-count');
+    const titleEl = document.getElementById('page-title');
+    const subtitleEl = document.getElementById('page-subtitle');
+
+    async function importPage(key) {
+      const cfg = PAGES[key];
+      slot.innerHTML = '<p class="status-note">Importing content...</p>';
+
+      try {
+        const res = await fetch(cfg.url, { cache: 'no-cache' });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const htmlText = await res.text();
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(htmlText, 'text/html');
+
+        const sourceList = doc.querySelector('#prose-list');
+        if (sourceList) {
+          slot.replaceChildren(sourceList.cloneNode(true));
+          countEl.textContent = slot.querySelectorAll('#prose-list > li').length;
+        } else {
+          const fallbackBody = doc.querySelector('main') || doc.body;
+          slot.innerHTML = fallbackBody ? fallbackBody.innerHTML : htmlText;
+          countEl.textContent = slot.querySelectorAll('li').length;
+        }
+
+        titleEl.textContent = cfg.title;
+        subtitleEl.textContent = cfg.subtitle;
+        document.title = cfg.title;
+        btn.dataset.current = key;
+        btn.textContent = cfg.buttonLabel;
+
+        if (cfg.hasMath && window.MathJax && typeof window.MathJax.typesetPromise === 'function') {
+          await window.MathJax.typesetPromise([slot]);
+        }
+      } catch (err) {
+        slot.innerHTML = `<p class="status-note">Could not load <code>${cfg.url}</code> (${err.message}). Serve over HTTP/HTTPS (e.g. GitHub Pages or a local server) rather than <code>file://</code>.</p>`;
+      }
+    }
+
+    btn.addEventListener('click', () => {
+      const next = btn.dataset.current === 'thoughts' ? 'iml' : 'thoughts';
+      importPage(next);
+    });
+
+    // Initial load
+    importPage('thoughts');
   </script>
 </body>
 </html>
