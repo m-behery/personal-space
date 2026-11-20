@@ -1,3 +1,3 @@
 *Welcome to my personal space...*
 
-*You can access it [here](https://m-behery.github.io/personal-thoughts/)*
+*You can access it [here](https://m-behery.github.io/personal-space/)*
