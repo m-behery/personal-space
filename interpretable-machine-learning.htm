@@ -686,7 +686,7 @@ $$</p>
 \end{aligned}
 $$</p>
 <p><br></p>
-<p>Let's examine the properties of $\text{Var}$ then. Starting with the property of multiplying by a constant $c$:</p>
+<p>Let's examine the properties of $\text{Var}$ then. Starting with the property of multiplying the dimension by a constant $c$:</p>
 <p>$$
 \begin{aligned}
 \text{Var}(c\,x) &= \mathbb{E}\left[(c\,x - c\,\mu_x)^2\right] \\
@@ -707,7 +707,7 @@ $$</p>
 \text{Var}(x_1 + x_2) = \text{Var}(x_1) + \text{Var}(x_2) + 2\,\text{Var}(x_1, x_2)
 $$</p>
 <p><br></p>
-<p>This means that the variance of two feature-dimensions $x_1$ and $x_2$ added together is the sum of their independent variances plus their dependent ones (i.e. covariances); however, if $x_1$ and $x_2$ are mutually disjoint (i.e. independent observations), the covariance term $2\,\text{Var}(x_1, x_2)$ vanishes:</p>
+<p>This means that the variance of two feature-dimensions $x_1$ and $x_2$ added together is the sum of their independent variances plus their dependent ones (i.e. covariances); and this is really intuitive because we already saw the meaning of $Var$ as an average area measure. Then again, if $x_1$ and $x_2$ are mutually disjoint (i.e. independent observations), the covariance term $2\,\text{Var}(x_1, x_2)$ vanishes:</p>
 <p>$$
 \text{Var}(x_1 + x_2) = \text{Var}(x_1) + \text{Var}(x_2)
 $$</p>
