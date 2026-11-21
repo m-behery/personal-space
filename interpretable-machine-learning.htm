@@ -704,10 +704,16 @@ $$</p>
 <p><br></p>
 <p>And now with the summation property:</p>
 <p>$$
-\text{Var}(x_1 + x_2) = \text{Var}(x_1) + \text{Var}(x_2) + 2\,\text{Var}(x_1, x_2)
+\begin{aligned}
+\text{Var}(x_1 + x_2) &= \mathbb{E}\left[\left((x_1 + x_2) - (\mu_1 + \mu_2)\right)^2\right] \\\\
+&= \mathbb{E}\left[\left((x_1 - \mu_1) + (x_2 - \mu_2)\right)^2\right] \\\\
+&= \mathbb{E}\left[(x_1 - \mu_1)^2 + 2\,(x_1 - \mu_1)\,(x_2 - \mu_2) + (x_2 - \mu_2)^2\right] \\\\
+&= \mathbb{E}\left[(x_1 - \mu_1)^2\right] + 2\,\mathbb{E}\left[(x_1 - \mu_1)\,(x_2 - \mu_2)\right] + \mathbb{E}\left[(x_2 - \mu_2)^2\right] \\\\
+&= \text{Var}(x_1) + 2\,\text{Var}(x_1, x_2) + \text{Var}(x_2)
+\end{aligned}
 $$</p>
 <p><br></p>
-<p>This means that the variance of two feature-dimensions $x_1$ and $x_2$ added together is the sum of their independent variances plus their dependent ones (i.e. covariances); and this is really intuitive because we already saw the meaning of $Var$ as an average area measure. Then again, if $x_1$ and $x_2$ are mutually disjoint (i.e. independent observations), the covariance term $2\,\text{Var}(x_1, x_2)$ vanishes:</p>
+<p>This means that the variance of two feature-dimensions $x_1$ and $x_2$ added together is the sum of their independent variances plus their dependent ones (i.e. covariances). Then again, if $x_1$ and $x_2$ are mutually disjoint (i.e. independent observations), the covariance term $2\,\text{Var}(x_1, x_2)$ vanishes:</p>
 <p>$$
 \text{Var}(x_1 + x_2) = \text{Var}(x_1) + \text{Var}(x_2)
 $$</p>
