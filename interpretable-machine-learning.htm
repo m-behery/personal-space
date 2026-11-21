@@ -235,7 +235,7 @@
 $$
 \begin{aligned}
 &\hat{y} &\equiv& &\text{Predicted Outcome}& \qquad\qquad &\beta &\equiv& &\text{Trainable Parameter}& \\\\
-&j &\equiv& &\text{Datapoint Index}& \qquad\qquad &n &\equiv& &\text{Datapoint Count}& \\\\
+&j &\equiv& &\text{Datapoint Index}& \qquad\qquad &n &\equiv& &\text{Sample Size (i.e. Datapoint Count)}& \\\\
 &i &\equiv& &\text{Predictor Index}& \qquad\qquad &p &\equiv& &\text{Predictor Count}&
 \end{aligned}
 $$</p>
@@ -389,15 +389,8 @@ $$</p>
 $$
 \begin{aligned}
 &\mu = \frac{1}{n} \sum_{j=1}^{n} y_j &\equiv& &\text{Population Mean}& \\\\
-&n &\equiv& &\text{Population Count}&
-\end{aligned}
-$$</p>
-<p><br></p>
-<p>And:
-$$
-\begin{aligned}
-&\sigma &\equiv& &\text{Standard Deviation (about Centroid)}& \\\\
-&\text{RMSE} &\equiv& &\text{Effective Error (about Predicted Values)}&
+&\sigma &\equiv& &\text{Standard Deviation (about $\mu$)}& \\\\
+&\text{RMSE} &\equiv& &\text{Effective Error (about $\hat{y}$)}&
 \end{aligned}
 $$</p>
 <p><br></p>
@@ -546,9 +539,17 @@ $$</p>
 <p><br></p>
 <p>$$
 \begin{aligned}
-r^2\,(y, \hat{y}) &= \left[\frac{1}{n}\,\sum_{j=1}^{n}\frac{(y_j - \mu_y)\,(\hat{y}_j - \mu_{\hat{y}})}{\sigma_y\,\sigma_{\hat{y}}}\right]^2 \\\\
-r^2\,(y, \hat{y}) &= \left[\frac{\cancel{\frac{1}{n}}\,\sum_{j=1}^{n}\,(y_j - \mu_y)\,(\hat{y}_j - \mu_{\hat{y}})}{\sqrt{\cancel{\frac{1}{n}}\,\sum_{j=1}^{n}\,(y - \mu_y)}\,\sqrt{\cancel{\frac{1}{n}}\,\sum_{j=1}^{n}\,(\hat{y} - \mu_{\hat{y}})}}\right]^2 \\\\
-r^2\,(y, \hat{y}) &= \frac{\left[\sum_{j=1}^{n}\,(y_j - \mu_y)\,(\hat{y}_j - \mu_{\hat{y}})\right]^2}{\sum_{j=1}^{n}\,(y - \mu_y)\,\sum_{j=1}^{n}\,(\hat{y} - \mu_{\hat{y}})}
+r^2\,(y, \hat{y}) &= \left[\frac{1}{n}\,\sum_{j=1}^{n}\frac{(y_j - \bar{y})\,(\hat{y}_j - \bar{{\hat{y}}})}{\sigma_y\,\sigma_{\hat{y}}}\right]^2 \\\\
+r^2\,(y, \hat{y}) &= \left[\frac{\cancel{\frac{1}{n}}\,\sum_{j=1}^{n}\,(y_j - \bar{y})\,(\hat{y}_j - \bar{{\hat{y}}})}{\sqrt{\cancel{\frac{1}{n}}\,\sum_{j=1}^{n}\,(y - \bar{y})}\,\sqrt{\cancel{\frac{1}{n}}\,\sum_{j=1}^{n}\,(\hat{y} - \bar{{\hat{y}}})}}\right]^2 \\\\
+r^2\,(y, \hat{y}) &= \frac{\left[\sum_{j=1}^{n}\,(y_j - \bar{y})\,(\hat{y}_j - \bar{{\hat{y}}})\right]^2}{\sum_{j=1}^{n}\,(y - \bar{y})\,\sum_{j=1}^{n}\,(\hat{y} - \bar{{\hat{y}}})}
+\end{aligned}
+$$</p>
+<p><br></p>
+<p>Where:</p>
+<p>$$
+\begin{aligned}
+\bar{y} &= \frac{1}{n} \, \sum_{j=1}^{n} \, y_j \qquad\equiv \text{Sample Mean of actual outcomes} \\\\
+\bar{\hat{y}} &= \frac{1}{n} \, \sum_{j=1}^{n} \, \hat{y}_j \qquad\equiv \text{Sample Mean of predicted outcomes}
 \end{aligned}
 $$</p>
 <p><br></p>
@@ -560,38 +561,45 @@ $$</p>
 \end{aligned}
 $$</p>
 <p><br></p>
-<p>Now, let's go for obtaining $\mu_y$ and $\mu_{\hat{y}}$:</p>
+<p>Now, let's go for obtaining $\bar{y}$ and $\bar{{\hat{y}}}$:</p>
 <p>$$
 \begin{aligned}
-\mu_{y} &= \frac{1}{n} \sum_{j=1}^{n}\,\left[\beta_0 + \sum_{i=1}^{p}\,\beta_i\,x_{ij} + e_j\right] \\\\ \mu_{y} &= \beta_0 + \sum_{i=1}^{p}\,\left(\beta_i\,\times\,\cancel{\frac{1}{n}\,\sum_{j=1}^{n}\,x_{ij}}^{\mu_i}\right) + \cancel{\frac{1}{n}\,\sum_{j=1}^{n}\,e_j}^0 = \mu_{\hat{y}} \\\\
-\mu_{y} &= \mu_{\hat{y}} = \beta_0 + \sum_{i=1}^{p}\,\beta_i\,\mu_i
+\bar{y} &= \frac{1}{n} \sum_{j=1}^{n}\,\left[\beta_0 + \sum_{i=1}^{p}\,\beta_i\,x_{ij} + e_j\right] \\\\ \bar{y} &= \beta_0 + \sum_{i=1}^{p}\,\left(\beta_i\,\times\,\cancel{\frac{1}{n}\,\sum_{j=1}^{n}\,x_{ij}}^{\bar{x}_i}\right) + \cancel{\frac{1}{n}\,\sum_{j=1}^{n}\,e_j}^0 = \bar{{\hat{y}}} \\\\
+\bar{y} &= \bar{{\hat{y}}} = \beta_0 + \sum_{i=1}^{p}\,\beta_i\,\bar{x}_i
+\end{aligned}
+$$</p>
+<p><br></p>
+<p>Where:</p>
+<p>$$
+\begin{aligned}
+\bar{x} &= \frac{1}{n} \, \sum_{i=1}^{p} \, x_i \qquad\equiv \text{Sample Mean of feature $i$}
 \end{aligned}
 $$</p>
 <p><br></p>
 <p>Therefore:</p>
 <p>$$
 \begin{aligned}
-r^2\,(y, \hat{y}) &= \frac{\left[\sum_{j=1}^{n}\,(\hat{y}_j - \mu_y)\,\left((\hat{y}_{j} - \mu_y) + e_j\right)\right]^2}{\sum_{j=1}^{n}\,(y - \mu_y)\,\sum_{j=1}^{n}\,(\hat{y} - \mu_{\hat{y}})} \\\\
-r^2\,(y, \hat{y}) &= \frac{\left[\sum_{j=1}^{n}\,(\hat{y}_j - \mu_y)^2 + \sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \mu_y)\right]^2}{\sum_{j=1}^{n}\,(y - \mu_y)\,\sum_{j=1}^{n}\,(\hat{y} - \mu_{\hat{y}})} \\\\
-r^2\,(y, \hat{y}) &= \frac{\left[\text{ESS} + \sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \mu_y)\right]^2}{\text{TSS}\,\times\,\text{ESS}} \\\\
+r^2\,(y, \hat{y}) &= \frac{\left[\sum_{j=1}^{n}\,(\hat{y}_j - \bar{y})\,\left((\hat{y}_{j} - \bar{y}) + e_j\right)\right]^2}{\sum_{j=1}^{n}\,(y - \bar{y})\,\sum_{j=1}^{n}\,(\hat{y} - \bar{{\hat{y}}})} \\\\
+r^2\,(y, \hat{y}) &= \frac{\left[\sum_{j=1}^{n}\,(\hat{y}_j - \bar{y})^2 + \sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \bar{y})\right]^2}{\sum_{j=1}^{n}\,(y - \bar{y})\,\sum_{j=1}^{n}\,(\hat{y} - \bar{{\hat{y}}})} \\\\
+r^2\,(y, \hat{y}) &= \frac{\left[\text{ESS} + \sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \bar{y})\right]^2}{\text{TSS}\,\times\,\text{ESS}} \\\\
 \end{aligned}
 $$</p>
 <p><br></p>
 <p>Where:</p>
 <p>$$
-\text{TSS} = \sum_{j=1}^{n}\,(\hat{y}_j - \mu_y)^2 \qquad\qquad \text{ESS} = \sum_{j=1}^{n}\,(\hat{y}_j - \mu_y)^2\\\\
+\text{TSS} = \sum_{j=1}^{n}\,(\hat{y}_j - \bar{y})^2 \qquad\qquad \text{ESS} = \sum_{j=1}^{n}\,(\hat{y}_j - \bar{y})^2\\\\
 $$</p>
 <p><br></p>
 <p>And for completeness:</p>
 <p>$$
 \begin{aligned}
 \text{RSS} &= \sum_{j=1}^{n}\,e_j^2 \\\\
-&= \sum_{j=1}^{n}\,(y_j - \hat{y}_j)^2\\\\
-&= \sum_{j=1}^{n}\,\left[(y_j - \mu_y) - (\hat{y}_j - \mu_y)\right]^2\\\\
-&= \sum_{j=1}^{n}\,\left[(y_j - \mu_y)^2 - 2\,(y_j - \mu_y)\,(\hat{y}_j - \mu_y) + (\hat{y}_j - \mu_y)^2\right]\\\\
-&= \sum_{j=1}^{n}\,\left[(y_j - \mu_y)^2 - 2\,(\hat{y}_j - \mu_y)\,\left((\hat{y}_{j} - \mu_y) + e_j\right) + (\hat{y}_j - \mu_y)^2\right]\\\\
-&= \sum_{j=1}^{n}\,\left[(y_j - \mu_y)^2 - \cancel{2}\,(\hat{y}_j - \mu_y)^2 + 2\,e_j\,(\hat{y}_j - \mu_y)^2 + \cancel{(\hat{y}_j - \mu_y)^2}\right]\\\\
-&= \text{TSS} - \text{ESS} + 2\,\sum_{j=1}^{n}\,e_j\,(\hat{y}_j - \mu_y)^2\\\\
+ &= \sum_{j=1}^{n}\,(y_j - \hat{y}_j)^2\\\\
+ &= \sum_{j=1}^{n}\,\left[(y_j - \bar{y}) - (\hat{y}_j - \bar{y})\right]^2\\\\
+ &= \sum_{j=1}^{n}\,\left[(y_j - \bar{y})^2 - 2\,(y_j - \bar{y})\,(\hat{y}_j - \bar{y}) + (\hat{y}_j - \bar{y})^2\right]\\\\
+ &= \sum_{j=1}^{n}\,\left[(y_j - \bar{y})^2 - 2\,(\hat{y}_j - \bar{y})\,\left((\hat{y}_{j} - \bar{y}) + e_j\right) + (\hat{y}_j - \bar{y})^2\right]\\\\
+ &= \sum_{j=1}^{n}\,\left[(y_j - \bar{y})^2 - \cancel{2}\,(\hat{y}_j - \bar{y})^2 + 2\,e_j\,(\hat{y}_j - \bar{y})^2 + \cancel{(\hat{y}_j - \bar{y})^2}\right]\\\\
+ &= \text{TSS} - \text{ESS} + 2\,\sum_{j=1}^{n}\,e_j\,(\hat{y}_j - \bar{y})^2\\\\
 \end{aligned}
 $$</p>
 <p><br></p>
@@ -604,19 +612,19 @@ $$</p>
 \end{aligned}
 $$</p>
 <p><br></p>
-<p>Both $\text{TSS}$ and $\text{ESS}$ can be directly calculated, however the remaining term $\sum_{j=1}^{n}\,e_j\,(\hat{y}_j - \mu_y)^2$, which is the same in both $r^2(\cdot)$ and $\text{RSS}$, needs further expansion.</p>
+<p>Both $\text{TSS}$ and $\text{ESS}$ can be directly calculated, however the remaining term $\sum_{j=1}^{n}\,e_j\,(\hat{y}_j - \bar{y})^2$, which is the same in both $r^2(\cdot)$ and $\text{RSS}$, needs further expansion.</p>
 <p>$$
 \begin{aligned}
-\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \mu_y) &= \sum_{j=1}^{n}\,e_j\,(\beta_0 + \sum_{i=1}^{p}\,\beta_i\,x_{ij} - \mu_y)\\\\
-\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \mu_y) &= \beta_0\,\cancel{\sum_{j=1}^{n}\,e_j}^0 + \sum_{i=1}^{p}\,\beta_i\,\cancel{\sum_{j=1}^{n}\,x_{ij}\,e_j}^0 - \mu_y\,\cancel{\sum_{j=1}^{n}\,e_j}^0\\\\
-\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \mu_y) &= 0
+\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \bar{y}) &= \sum_{j=1}^{n}\,e_j\,(\beta_0 + \sum_{i=1}^{p}\,\beta_i\,x_{ij} - \bar{y})\\\\
+\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \bar{y}) &= \beta_0\,\cancel{\sum_{j=1}^{n}\,e_j}^0 + \sum_{i=1}^{p}\,\beta_i\,\cancel{\sum_{j=1}^{n}\,x_{ij}\,e_j}^0 - \bar{y}\,\cancel{\sum_{j=1}^{n}\,e_j}^0\\\\
+\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \bar{y}) &= 0
 \end{aligned}
 $$</p>
 <p><br></p>
 <p>Therefore, our $r^2(\cdot)$ and $\text{RSS}$ expressions evaluate to:</p>
 <p>$$
 \begin{aligned}
-r^2\,(y, \hat{y}) &= \frac{\left[\text{ESS} + \cancel{\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \mu_y)}^0\right]^2}{\text{TSS}\,\times\,\text{ESS}} \qquad\qquad &\text{RSS} &= \text{TSS} - \text{ESS} + 2\,\cancel{\sum_{j=1}^{n}\,e_j\,(\hat{y}_j - \mu_y)^2}^0 \\\\
+r^2\,(y, \hat{y}) &= \frac{\left[\text{ESS} + \cancel{\sum_{j=1}^{n}\,e_j\,(\hat{y}_{j} - \bar{y})}^0\right]^2}{\text{TSS}\,\times\,\text{ESS}} \qquad\qquad &\text{RSS} &= \text{TSS} - \text{ESS} + 2\,\cancel{\sum_{j=1}^{n}\,e_j\,(\hat{y}_j - \bar{y})^2}^0 \\\\
 r^2\,(y, \hat{y}) &= \frac{\text{ESS}}{\text{TSS}} \qquad\qquad &\text{RSS} &= \text{TSS} - \text{ESS} \\\\
 \end{aligned}
 $$</p>
