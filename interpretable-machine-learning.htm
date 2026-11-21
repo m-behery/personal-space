@@ -405,23 +405,24 @@ $$</p>
           <time datetime="2026-11-19">19 NOV 2026</time>
 <h3>4. On the Meaning of $\text{Var}$</h3>
 <p><br></p>
-<p>$$\text{Var}\,(x_1, x_2) = \frac{1}{n} \sum_{j=1}^{n} (x_{1j} - \mu_1)\,(x_{2j} - \mu_2)$$</p>
+<p>$$\text{Var}\,(x_1, x_2) = \frac{1}{N} \sum_{j=1}^{N} (x_{1j} - \mu_1)\,(x_{2j} - \mu_2)$$</p>
 <p><br></p>
 <p>Where:</p>
 <p>$$
 \begin{aligned}
-&\text{Var}\,(x_1, x_2) &\equiv& &\text{Covariance between Dimensions}~x_1~\text{and}~x_2&
+&\text{Var}\,(x_1, x_2) &\equiv& &\text{Covariance between Dimensions}~x_1~\text{and}~x_2& \\\\
+&N &\equiv& &\text{Population Count}&
 \end{aligned}
 $$</p>
 <p><br></p>
-<p><em>From the above expression, we can see the Covariance $\text{Var}\,(x_1, x_2)$, as a dispersion measure of datapoint projections across the 2D plane defined by dimensions $x_1$ and $x_2$, can be defined as the average area of rectangles bounded by their respective datapoints and the dataset's centroid. Notice that an area is a vector quantity, so $\text{Var}\,(x_1, x_2)$ can evaluate to a negative value if the datapoint projections on the $x_1, x_2$ plane have their components, on average, changing their values in opposite directions.</em></p>
+<p><em>From the above expression, we can see the Covariance $\text{Var}\,(x_1, x_2)$, as a dispersion measure of datapoint projections across the 2D plane defined by dimensions $x_1$ and $x_2$, can be defined as the average area of rectangles bounded by their respective datapoints and the population's centroid. Notice that an area is a vector quantity, so $\text{Var}\,(x_1, x_2)$ can evaluate to a negative value if the datapoint projections on the $x_1, x_2$ plane have their components, on average, changing their values in opposite directions.</em></p>
         </li>
 
         <li>
           <time datetime="2026-11-19">19 NOV 2026</time>
 <h3>5. On the Meaning of $r$</h3>
 <p><br></p>
-<p>$$r\,(x_1, x_2) = \frac{1}{n} \sum_{j=1}^{n} \frac{(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)}{\sigma_1 \, \sigma_2}$$</p>
+<p>$$r\,(x_1, x_2) = \frac{1}{N} \sum_{j=1}^{N} \frac{(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)}{\sigma_1 \, \sigma_2}$$</p>
 <p><br></p>
 <p>Where:</p>
 <p>$$
@@ -435,17 +436,17 @@ $$</p>
 <p><br></p>
 <p>$$
 \begin{align}
-r\,(x_1, x_2) &= \frac{1}{n} \sum_{j=1}^{n} \frac{(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)}{\sigma_1 \, \sigma_2} \\
-r\,(x_1, x_2) &= \frac{\frac{1}{n}\sum_{j=1}^{n}\left[(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)\right]}{\sqrt{\frac{1}{n}\sum_{j=1}^{n}(x_{1j} - \mu_1)^2} \; \sqrt{\frac{1}{n}\sum_{j=1}^{n}(x_{2j} - \mu_2)^2}} \\
-r\,(x_1, x_2) &= \frac{\sum_{j=1}^{n}\left[(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)\right]}{\sqrt{\sum_{j=1}^{n}(x_{1j} - \mu_1)^2} \; \sqrt{\sum_{j=1}^{n}(x_{2j} - \mu_2)^2}} \\
-r\,(x_1, x_2) &= \frac{\langle x_{1} - \mu_1,\,x_{2} - \mu_2 \rangle}{\left\|x_{1} - \mu_1\right\| \; \left\|x_{2} - \mu_2\right\|} = \cos\theta
+r\,(x_1, x_2) &= \frac{1}{N} \sum_{j=1}^{N} \frac{(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)}{\sigma_1 \, \sigma_2} \\\\
+r\,(x_1, x_2) &= \frac{\frac{1}{N}\sum_{j=1}^{N}\left[(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)\right]}{\sqrt{\frac{1}{N}\sum_{j=1}^{N}(x_{1j} - \mu_1)^2} \; \sqrt{\frac{1}{N}\sum_{j=1}^{N}(x_{2j} - \mu_2)^2}} \\\\
+r\,(x_1, x_2) &= \frac{\sum_{j=1}^{N}\left[(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)\right]}{\sqrt{\sum_{j=1}^{N}(x_{1j} - \mu_1)^2} \; \sqrt{\sum_{j=1}^{N}(x_{2j} - \mu_2)^2}} \\\\
+r\,(x_1, x_2) &= \frac{\left<x_{1} - \mu_1,\,x_{2} - \mu_2\right>}{\left\|x_{1} - \mu_1\right\| \; \left\|x_{1} - \mu_1\right\|} = \cos\theta
 \end{align}
 $$</p>
 <p><br></p>
 <p>Therefore:</p>
 <p>$$r(x_1, x_2) \in [-1, 1]$$</p>
 <p><br></p>
-<p><em>This means that the correlation $r(x_1, x_2)$ physically becomes the cosine similarity between the dataset's transformational basis vectors $x_1$ and $x_2$ in a version of the dataset that is normalized w.r.t its centroid.</em></p>
+<p><em>This means that the correlation $r(x_1, x_2)$ becomes physically the cosine similarity between the population dataset's transformational basis vectors $x_1$ and $x_2$ in a version of the population dataset that is normalized w.r.t its centroid.</em></p>
 <p><br></p>
 <p><strong><em>Fun Fact:</em></strong> </p>
 <p><em>In Digital Signal Processing (DSP), the correlation is a measure of similarity between two 1D signals (i.e. sequences), it is computed as their dot-product, which makes it the statistical covariance between pairs of the two 1D populations (i.e. they do not have to be sequences in that context); that is if the signals had their DC components removed first (centroid-normalized).</em></p>
