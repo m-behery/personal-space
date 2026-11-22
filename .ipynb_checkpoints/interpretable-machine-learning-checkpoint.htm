@@ -435,12 +435,12 @@ $$</p>
 <p>Now, let's derive $r$'s range so we can understand more about its physical nature.</p>
 <p><br></p>
 <p>$$
-\begin{align}
+\begin{aligned}
 r\,(x_1, x_2) &= \frac{1}{N} \sum_{j=1}^{N} \frac{(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)}{\sigma_1 \, \sigma_2} \\\\
 r\,(x_1, x_2) &= \frac{\frac{1}{N}\sum_{j=1}^{N}\left[(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)\right]}{\sqrt{\frac{1}{N}\sum_{j=1}^{N}(x_{1j} - \mu_1)^2} \; \sqrt{\frac{1}{N}\sum_{j=1}^{N}(x_{2j} - \mu_2)^2}} \\\\
 r\,(x_1, x_2) &= \frac{\sum_{j=1}^{N}\left[(x_{1j} - \mu_1)\,(x_{2j} - \mu_2)\right]}{\sqrt{\sum_{j=1}^{N}(x_{1j} - \mu_1)^2} \; \sqrt{\sum_{j=1}^{N}(x_{2j} - \mu_2)^2}} \\\\
-r\,(x_1, x_2) &= \frac{\left<x_{1} - \mu_1,\,x_{2} - \mu_2\right>}{\left\|x_{1} - \mu_1\right\| \; \left\|x_{1} - \mu_1\right\|} = \cos\theta
-\end{align}
+r\,(x_1, x_2) &= \frac{\langle x_{1} - \mu_1,\,x_{2} - \mu_2\rangle}{\left\|x_{1} - \mu_1\right\| \; \left\|x_{1} - \mu_1\right\|} = \cos\theta
+\end{aligned}
 $$</p>
 <p><br></p>
 <p>Therefore:</p>
@@ -654,19 +654,22 @@ $$</p>
 <p>Let's now derive the expression for our sample variance, starting with the Sum of Squares:</p>
 <p>$$
 \begin{aligned}
-\sum_{j=1}^{n} \, (x_j - \bar{x})^2 &= \sum_{j=1}^{n} \, \left[(x_j - \mu_x) - (\bar{x} - \mu_x)\right]^2 \\
-&= \sum_{j=1}^{n} \, \left[(x_j - \mu_x)^2 - 2 \,(x_j - \mu_x) \,(\bar{x} - \mu_x) + (\bar{x} - \mu_x)^2\right] \\
-&= \sum_{j=1}^{n} \, (x_j - \mu_x)^2 - 2 \,(\bar{x} - \mu_x)\, \cancel{\sum_{j=1}^{n} \,(x_j - \mu_x)}^0 + \sum_{j=1}^{n} \, (\bar{x} - \mu_x)^2 \\
-&= \sum_{j=1}^{n} \, (x_j - \mu_x)^2 + n \, (\bar{x} - \mu_x)^2
+\sum_{j=1}^{n} \, (x_j - \bar{x})^2 &= \sum_{j=1}^{n} \, \left[(x_j - \mu_x) - (\bar{x} - \mu_x)\right]^2 \\\\
+&= \sum_{j=1}^{n} \, \left[(x_j - \mu_x)^2 - 2 \,(x_j - \mu_x) \,(\bar{x} - \mu_x) + (\bar{x} - \mu_x)^2\right] \\\\
+&= \sum_{j=1}^{n} \, (x_j - \mu_x)^2 - 2 \,(\bar{x} - \mu_x)\, \sum_{j=1}^{n} \,(x_j - \mu_x) + \sum_{j=1}^{n} \, (\bar{x} - \mu_x)^2 \\\\
+&= \sum_{j=1}^{n} \, (x_j - \mu_x)^2 - 2 \,(\bar{x} - \mu_x)\, (\sum_{j=1}^{n} \,x_j - \sum_{j=1}^{n} \,\mu_x) + n \, (\bar{x} - \mu_x)^2 \\\\
+&= \sum_{j=1}^{n} \, (x_j - \mu_x)^2 - 2 \,(\bar{x} - \mu_x)\, (n\,\bar{x} - n\,\mu_x) + n \, (\bar{x} - \mu_x)^2 \\\\
+&= \sum_{j=1}^{n} \, (x_j - \mu_x)^2 - 2 \,n\,(\bar{x} - \mu_x)^2 + n \, (\bar{x} - \mu_x)^2 \\\\
+&= \sum_{j=1}^{n} \, (x_j - \mu_x)^2 - n \, (\bar{x} - \mu_x)^2
 \end{aligned}
 $$</p>
 <p><br></p>
 <p>Let's take the Expectation $\mathbb{E}$ for both sides so that we can relax terms that are tricky to evaluate:</p>
 <p>$$
 \begin{aligned}
-\mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \bar{x})^2\right] &= \mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \mu_x)^2 + n \, (\bar{x} - \mu_x)^2\right] \\
-&= \mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \mu_x)^2 \right] + \mathbb{E}\left[n \, (\bar{x} - \mu_x)^2\right] \\
-&= \sum_{j=1}^{n} \, \mathbb{E}\left[(x_j - \mu_x)^2\right] + n \, \mathbb{E}\left[(\bar{x} - \mu_x)^2\right]
+\mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \bar{x})^2\right] &= \mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \mu_x)^2 - n \, (\bar{x} - \mu_x)^2\right] \\\\
+&= \mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \mu_x)^2 \right] - \mathbb{E}\left[n \, (\bar{x} - \mu_x)^2\right] \\\\
+&= \sum_{j=1}^{n} \, \mathbb{E}\left[(x_j - \mu_x)^2\right] - n \, \mathbb{E}\left[(\bar{x} - \mu_x)^2\right]
 \end{aligned}
 $$</p>
 <p><br></p>
@@ -738,9 +741,9 @@ $$</p>
 <p>Going back to our original derivation:</p>
 <p>$$
 \begin{aligned}
-\mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \bar{x})^2\right]  &= \sum_{j=1}^{n} \, \mathbb{E}\left[(x_j - \mu_x)^2\right] + n \, \mathbb{E}\left[(\bar{x} - \mu_x)^2\right] \\
-&= \sum_{j=1}^{n} \,\text{Var}(x) + n \,\text{Var}(\bar{x}) \\
-&= n \,\sigma^2 + \cancel{n} \,\frac{\sigma^2}{\cancel{n}} \\
+\mathbb{E}\left[\sum_{j=1}^{n} \, (x_j - \bar{x})^2\right]  &= \sum_{j=1}^{n} \, \mathbb{E}\left[(x_j - \mu_x)^2\right] - n \, \mathbb{E}\left[(\bar{x} - \mu_x)^2\right] \\\\
+&= \sum_{j=1}^{n} \,\text{Var}(x) - n \,\text{Var}(\bar{x}) \\\\
+&= n \,\sigma^2 - \cancel{n} \,\frac{\sigma^2}{\cancel{n}} \\\\
 &= (n - 1) \,\sigma^2
 \end{aligned}
 $$</p>
